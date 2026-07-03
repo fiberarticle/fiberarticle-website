@@ -1,5 +1,7 @@
 name: Deploy Fiberarticle
 
+# Manual deploy only. Push to main does not run this workflow.
+# Go to GitHub > Actions > Deploy Fiberarticle > Run workflow when you want to deploy.
 on:
   workflow_dispatch:
 
