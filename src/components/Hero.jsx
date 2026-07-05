@@ -29,9 +29,19 @@ export default function Hero() {
           transition={{ duration: 1.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="hero-device-screen">
-            <p className="hero-screen-placeholder">
-              Video demo will be placed here once it is ready
-            </p>
+            {/* Temporary product slideshow until the demo video is ready:
+                three screenshots cross-fade every 2s in a seamless loop
+                (pure CSS, staggered opacity keyframes, no black gap). */}
+            <div className="hero-slideshow" aria-hidden="true">
+              {['image-1', 'image-2', 'image-3'].map((name) => (
+                <img
+                  key={name}
+                  className="hero-slide"
+                  src={`/product-screenshots/${name}.webp`}
+                  alt=""
+                />
+              ))}
+            </div>
           </div>
           <img className="hero-device-frame" src="/hero/device-lid.webp" alt="" aria-hidden="true" />
         </motion.div>
