@@ -750,33 +750,45 @@ h3 {
 }
 
 /* ------------------------------------------------------------
-   How it works: pinned note cards on ruled paper
+   How it works: pinned note cards on the dark page
    ------------------------------------------------------------ */
 
 .how {
   position: relative;
   overflow: hidden;
-  padding: 96px 0 104px;
+  /* Same ink as the hero, so the two run on as one dark block. */
+  background: #040604;
+  padding: 84px 0 104px;
 }
 
-/* Ruled notebook lines. One repeating gradient row of 32px, drawn straight at
-   the final alpha so no extra opacity layer is needed. Every line runs the full
-   width of the section, edge to edge, like a real ruled page. */
-.how-rules {
+/* The hex digit field. Sits flat behind everything and fades out at the top and
+   bottom edges so it never fights the hero above or the footer below. */
+.glyph-rain {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(35, 32, 33, 0.09) 1px, transparent 1px);
-  background-size: 100% 32px;
+  display: block;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 14%,
+    #000 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 14%,
+    #000 82%,
+    transparent 100%
+  );
 }
 
 .how-inner {
   position: relative;
   z-index: 1;
-}
-
-.how-head {
-  margin-bottom: 64px;
 }
 
 /* Phones and tablets: the same pinned look as the desktop board, only walking
@@ -805,6 +817,17 @@ h3 {
   overflow: visible;
 }
 
+/* The dashes joining the cards: a fine polished silver line with a tight bloom,
+   so it reads as a machined link rather than a pencil mark. Two drop-shadows,
+   one close and one wide, give the light a core and a falloff; a single wide
+   shadow just looks smudged. */
+.how-wire {
+  stroke: rgba(232, 237, 242, 0.9);
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 2px rgba(240, 246, 252, 0.6))
+    drop-shadow(0 0 8px rgba(176, 194, 212, 0.38));
+}
+
 .how-card {
   --rot: 0deg;
   /* Narrower than the column so there is room to shift left and right, and
@@ -831,13 +854,34 @@ h3 {
   transform: rotate(var(--rot)) scale(1.05);
 }
 
-/* White sheet holding the pin and the tinted note. */
+/* Brushed aluminium shell holding the pin and the note, cut from the same
+   silver as the MacBook body in the hero.
+   Three layers, top to bottom: a fine diagonal grain, a couple of bright bands
+   that read as a light sweep across a milled surface, and the base gradient
+   that turns the card from light at the top left to shadow at the bottom right.
+   The inset shadows are the machined edge: a lit top lip and a dark bottom one. */
 .how-card-paper {
   padding: 8px;
-  border: 1px solid #ece5da;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 25px;
-  background: var(--white);
-  box-shadow: 0 10px 22px -6px rgba(35, 32, 33, 0.18);
+  background-image:
+    repeating-linear-gradient(
+      116deg,
+      rgba(255, 255, 255, 0.42) 0 1px,
+      rgba(24, 26, 28, 0.05) 1px 3px
+    ),
+    linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0) 24%,
+      rgba(255, 255, 255, 0.55) 48%,
+      rgba(255, 255, 255, 0) 70%
+    ),
+    linear-gradient(150deg, #f7f8f9 0%, #d6dadd 22%, #eceef0 44%, #c3c7cb 68%, #e2e5e7 86%, #cbcfd2 100%);
+  box-shadow:
+    0 16px 34px -10px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(23, 25, 27, 0.22);
 }
 
 .how-pin {
@@ -848,11 +892,19 @@ h3 {
   color: var(--tone-ink);
 }
 
+/* The note now reads as a panel milled into the shell: a pale wash over the
+   step's tone, so each card still carries its colour but only as a hint of it,
+   and an inset shadow that sinks the panel below the surrounding metal. */
 .how-card-note {
   padding: 15px;
-  border: 1px solid var(--tone-border);
+  border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 15px;
-  background: var(--tone-bg);
+  background-image:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.42) 100%),
+    linear-gradient(0deg, var(--tone-bg), var(--tone-bg));
+  box-shadow:
+    inset 0 2px 4px -1px rgba(23, 25, 27, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* Hand written step number, in the same script face as the logo. */
@@ -865,11 +917,12 @@ h3 {
   margin-bottom: 14px;
 }
 
+/* Graphite rather than the warm page ink: the metal underneath is cool. */
 .how-card-note h3 {
   font-size: 1.35rem;
   font-weight: 600;
   line-height: 1.1;
-  color: var(--ink);
+  color: #1b1e21;
   margin-bottom: 10px;
 }
 
@@ -878,7 +931,7 @@ h3 {
   font-weight: 400;
   line-height: 1.55;
   letter-spacing: -0.01em;
-  color: var(--ink-soft);
+  color: #4b5054;
 }
 
 /* Tones, taken from the logo palette. Each sets the note wash, its hairline
@@ -932,6 +985,8 @@ h3 {
     height: 100%;
     z-index: 0;
     pointer-events: none;
+    /* The bloom around the dashes reaches past the viewBox edge. */
+    overflow: visible;
   }
 
   /* The per-gap curves belong to the column layout only; here the one long
@@ -985,15 +1040,7 @@ h3 {
    Sized against the 375 x 667 iPhone SE, the tightest case. */
 @media (max-width: 600px) {
   .how {
-    padding: 26px 0 52px;
-  }
-
-  .how-head {
-    margin-bottom: 24px;
-  }
-
-  .how-head h2 {
-    font-size: 1.72rem;
+    padding: 56px 0 52px;
   }
 
   .how-link {
