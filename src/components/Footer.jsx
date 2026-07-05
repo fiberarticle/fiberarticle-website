@@ -1,4 +1,3 @@
-import { Mail } from 'lucide-react'
 import { Brand } from './Navbar.jsx'
 import GitHubIcon from './GitHubIcon.jsx'
 
@@ -22,19 +21,44 @@ export default function Footer() {
             >
               <GitHubIcon size={18} />
             </a>
-            <a href="mailto:founder@fiberarticle.com" aria-label="Email the founder">
-              <Mail size={18} />
-            </a>
           </div>
         </div>
       </div>
 
       <div className="footer-giant" aria-hidden="true">
-        <svg viewBox="0 0 900 170" preserveAspectRatio="xMidYMax meet">
-          <text x="450" y="148" textAnchor="middle" className="footer-giant-text">
-            Fiberarticle
-          </text>
-        </svg>
+        <span className="footer-giant-stack">
+          <svg viewBox="0 0 900 170" preserveAspectRatio="xMidYMax meet">
+            <text x="450" y="148" textAnchor="middle" className="footer-giant-text">
+              Fiberarticle
+            </text>
+          </svg>
+          {/* Traveling light: a masked copy of the outline whose stroke color
+              drifts through the agent palette, StarBorder style. */}
+          <svg
+            className="footer-giant-light"
+            viewBox="0 0 900 170"
+            preserveAspectRatio="xMidYMax meet"
+          >
+            <text
+              x="450"
+              y="148"
+              textAnchor="middle"
+              className="footer-giant-light-text"
+            >
+              Fiberarticle
+            </text>
+            {/* Opaque letter interiors painted over the light, so the lit
+                trace and its glow only ever show on the outer contour. */}
+            <text
+              x="450"
+              y="148"
+              textAnchor="middle"
+              className="footer-giant-cover-text"
+            >
+              Fiberarticle
+            </text>
+          </svg>
+        </span>
       </div>
 
       <div className="container footer-legal">
