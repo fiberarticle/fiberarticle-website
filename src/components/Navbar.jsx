@@ -46,8 +46,8 @@ export default function Navbar() {
               <a href="https://app.fiberarticle.com">
                 Sign up
                 <svg
-                  width="14"
-                  height="14"
+                  width="17"
+                  height="17"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   aria-hidden="true"
