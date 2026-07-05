@@ -1,9 +1,11 @@
 import { Fragment } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
+import GlyphRain from './GlyphRain.jsx'
+
 /**
- * How it works: five pinned note cards scattered over ruled paper, joined by a
- * dashed line that keeps travelling.
+ * How it works: five pinned note cards scattered over the dark page, joined by
+ * a dashed line that keeps travelling.
  *
  * Desktop places the cards by hand on a fixed 1000 x 1130 board and draws one
  * long trail behind them (see .how-card:nth-of-type in global.css). Phones keep
@@ -75,13 +77,12 @@ function Pin() {
    14px dash cycles (8 on, 6 off), so the loop restarts with no visible jump.
    The offset is counted in path length, so the short phone curves travel at the
    same speed as the long desktop trail. */
-function Dashes({ d, reduce }) {
+function Wire({ d, reduce }) {
   return (
     <motion.path
+      className="how-wire"
       d={d}
       fill="none"
-      stroke="rgba(35, 32, 33, 0.22)"
-      strokeWidth="2"
       strokeDasharray="8 6"
       strokeLinecap="round"
       vectorEffect="non-scaling-stroke"
@@ -98,15 +99,11 @@ export default function HowItWorks() {
   const reduce = useReducedMotion()
 
   return (
-    <section className="section-light how" id="how-it-works">
-      {/* Ruled paper lines, running the full width of the section. */}
-      <span className="how-rules" aria-hidden="true" />
+    <section className="section-dark how" id="how-it-works">
+      {/* Faint hex digit field behind the cards. */}
+      <GlyphRain />
 
       <div className="container how-inner">
-        <div className="section-head how-head">
-          <h2>From topic to a finished article</h2>
-        </div>
-
         <div className="how-stack">
           {/* Desktop trail. Hidden on phones, where the gap curves take over. */}
           <svg
@@ -115,7 +112,7 @@ export default function HowItWorks() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <Dashes d={TRAIL} reduce={reduce} />
+            <Wire d={TRAIL} reduce={reduce} />
           </svg>
 
           {STEPS.map((step, i) => (
@@ -129,7 +126,7 @@ export default function HowItWorks() {
                 >
                   {/* Card 1 leans left, card 2 right, and so on, so odd gaps
                       curve one way and even gaps the other. */}
-                  <Dashes
+                  <Wire
                     d={i % 2 ? LINK_LEFT_TO_RIGHT : LINK_RIGHT_TO_LEFT}
                     reduce={reduce}
                   />
