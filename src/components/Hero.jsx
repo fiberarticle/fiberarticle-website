@@ -10,8 +10,11 @@ export default function Hero() {
       <div className="container">
         <div className="hero-inner">
           <div className="hero-copy">
-            <h1 className="hero-headline" data-text="Agentic AI Research Platform">
-              Agentic AI Research Platform
+            <h1
+              className="hero-headline"
+              data-text={'Agentic AI\nResearch Platform'}
+            >
+              {'Agentic AI\nResearch Platform'}
             </h1>
           </div>
         </div>
