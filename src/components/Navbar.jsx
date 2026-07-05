@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button } from '@radix-ui/themes'
 
-export function Brand({ height = 36, style = {} }) {
+export function Brand({ height = 30, style = {} }) {
   return (
     <a className="brand" href="#top" aria-label="Fiberarticle home" style={style}>
       <img
@@ -31,6 +31,7 @@ export default function Navbar() {
       <span id="top" className="top-anchor" aria-hidden="true" />
       <header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
         <div className="container navbar-inner">
+          <span className="nav-shimmer" aria-hidden="true" />
           <Brand />
 
           <div className="nav-actions">
