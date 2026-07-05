@@ -35,6 +35,7 @@
   --strip-logo: linear-gradient(90deg, #fca91e 0% 33.4%, #ff7db1 33.4% 66.7%, #50c158 66.7% 100%);
 
   --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+  --font-headline: 'Faster One', 'Bricolage Grotesque', cursive;
   --font-logo: 'MonteCarlo', cursive;
   --font-mono: 'IBM Plex Mono', Consolas, monospace;
 
@@ -323,11 +324,17 @@ h3 {
 
 .brand-word {
   font-family: var(--font-display);
-  font-size: 1.24rem;
+  font-size: 1.42rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--dark-text);
   white-space: nowrap;
+  /* Brand gradient, identical to the app wordmark and the sign-in page:
+     dark brown flowing into amber, the logo's f colors. */
+  background: linear-gradient(90deg, #b3782d 0%, #c2842b 62%, #fca91e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .nav-links {
@@ -427,18 +434,20 @@ h3 {
   overflow: visible;
 }
 
-/* Headline — Figma chrome: Bricolage 400, 108.95px / 94.98px lh,
-   gradient #090C09 → #EFF5F0, inner highlight + soft drop shadow. */
+/* Headline — Faster One display font on two lines, keeping the Figma
+   chrome treatment: gradient #090C09 → #EFF5F0, inner highlight + soft
+   drop shadow. pre-line makes the \n in the JSX (and in data-text for the
+   pseudo overlays) render as the line break, so all three layers align. */
 .hero h1.hero-headline {
   position: relative;
   margin: 0 0 12px;
   max-width: none;
-  white-space: nowrap;
-  font-family: var(--font-display);
+  white-space: pre-line;
+  font-family: var(--font-headline);
   font-weight: 400;
-  font-size: clamp(1.75rem, 8.254cqw, 108.95px);
-  line-height: 0.872;
-  letter-spacing: 0;
+  font-size: clamp(1.6rem, 6.4cqw, 84px);
+  line-height: 1.18;
+  letter-spacing: 0.01em;
   text-align: center;
   padding: 0 0.1em 0.22em;
   overflow: visible;
@@ -530,9 +539,11 @@ h3 {
 .hero-device-screen {
   position: absolute;
   left: 10.21%;
-  top: 11.784%;
+  /* A touch above the bezel opening so the page beam cannot leak through
+     the frame's transparent cutout around the camera notch. */
+  top: 11%;
   width: 79.53%;
-  height: 88.3%;
+  height: 89.3%;
   z-index: 1;
   overflow: hidden;
   background: #000;
@@ -1357,9 +1368,15 @@ h3 {
   padding-bottom: 48px;
 }
 
-.footer-giant svg {
+.footer-giant-stack {
+  position: relative;
   display: block;
   width: min(84vw, 1060px);
+}
+
+.footer-giant svg {
+  display: block;
+  width: 100%;
   height: auto;
 }
 
@@ -1374,6 +1391,89 @@ h3 {
   stroke: rgba(252, 169, 30, 0.55);
   stroke-width: 2.4;
   paint-order: stroke fill;
+}
+
+/* Traveling light on the outline, StarBorder style: a bright amber
+   stroke-only copy of the wordmark, revealed through a soft window that
+   sweeps across the text while a dash glides along each letter's contour. */
+.footer-giant-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --fa-light-color: #fca91e;
+  /* Whisper of glow; the cover text above the light layer keeps it (and
+     the interior seams) out of the letter interiors. */
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--fa-light-color) 55%, transparent));
+  /* The lit contour is only visible inside a soft window that sweeps
+     left to right, so one light travels through the word while the dash
+     glides along each letter's outline underneath it. */
+  -webkit-mask-image: radial-gradient(
+    ellipse 230px 200px at center,
+    #000 0%,
+    rgba(0, 0, 0, 0.85) 45%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 230px 200px at center,
+    #000 0%,
+    rgba(0, 0, 0, 0.85) 45%,
+    transparent 75%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 460px 100%;
+  mask-size: 460px 100%;
+  animation: fa-footer-light-window 7s linear infinite;
+}
+
+@keyframes fa-footer-light-window {
+  0% {
+    -webkit-mask-position: -230px 50%;
+    mask-position: -230px 50%;
+  }
+  100% {
+    -webkit-mask-position: calc(100% + 230px) 50%;
+    mask-position: calc(100% + 230px) 50%;
+  }
+}
+
+/* A bright dash slides along each glyph's outline contour (letter holes
+   are their own subpaths, so they catch the light on their own lap). */
+.footer-giant-light-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 128px;
+  letter-spacing: 0.0267em;
+  fill: none;
+  stroke: var(--fa-light-color);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 110 640;
+  animation: fa-footer-outline-travel 5.5s linear infinite;
+}
+
+/* Sits above the light text: blacks out the letter interiors so the thin
+   lit trace and its glow only read on the outer contour. */
+.footer-giant-cover-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 128px;
+  letter-spacing: 0.0267em;
+  fill: #0c0c0e;
+  stroke: none;
+}
+
+@keyframes fa-footer-outline-travel {
+  to {
+    stroke-dashoffset: -750;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-giant-light {
+    animation: none;
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------
@@ -1491,7 +1591,7 @@ h3 {
   }
 
   .brand-word {
-    font-size: 1.12rem;
+    font-size: 1.28rem;
   }
 
   .audience-metrics {
