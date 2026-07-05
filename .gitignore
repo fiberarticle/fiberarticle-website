@@ -12,3 +12,7 @@ npm-debug.log*
 .vscode/
 .idea/
 .DS_Store
+
+# Heavy PNG source screenshots. Only the compressed WebP versions are
+# shipped to the site, so the large originals are kept out of the repo.
+public/product-screenshots/*.png
