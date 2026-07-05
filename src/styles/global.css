@@ -750,6 +750,321 @@ h3 {
 }
 
 /* ------------------------------------------------------------
+   How it works: pinned note cards on ruled paper
+   ------------------------------------------------------------ */
+
+.how {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 0 104px;
+}
+
+/* Ruled notebook lines. One repeating gradient row of 32px, drawn straight at
+   the final alpha so no extra opacity layer is needed. Every line runs the full
+   width of the section, edge to edge, like a real ruled page. */
+.how-rules {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(35, 32, 33, 0.09) 1px, transparent 1px);
+  background-size: 100% 32px;
+  pointer-events: none;
+}
+
+.how-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.how-head {
+  margin-bottom: 64px;
+}
+
+/* Phones and tablets: the same pinned look as the desktop board, only walking
+   down a single column. Cards lean and sit alternately to the left and to the
+   right, and each gap holds its own short dashed curve, so the trail keeps
+   joining the cards however tall their text grows. */
+.how-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* No gap: the connector curves in between are what spaces the cards out. */
+  gap: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.how-trail {
+  display: none;
+}
+
+.how-link {
+  display: block;
+  width: 100%;
+  height: 72px;
+  flex: none;
+  overflow: visible;
+}
+
+.how-card {
+  --rot: 0deg;
+  /* Narrower than the column so there is room to shift left and right, and
+     capped so a wide tablet gets note-sized cards in two leaning columns
+     instead of one stretched banner per step. */
+  width: 88%;
+  max-width: 360px;
+  transform: rotate(var(--rot));
+  transition: transform 0.3s ease;
+}
+
+.how-card:nth-of-type(odd) {
+  --rot: 3deg;
+  margin-right: auto;
+}
+
+.how-card:nth-of-type(even) {
+  --rot: -3deg;
+  margin-left: auto;
+}
+
+.how-card:hover {
+  z-index: 30;
+  transform: rotate(var(--rot)) scale(1.05);
+}
+
+/* White sheet holding the pin and the tinted note. */
+.how-card-paper {
+  padding: 8px;
+  border: 1px solid #ece5da;
+  border-radius: 25px;
+  background: var(--white);
+  box-shadow: 0 10px 22px -6px rgba(35, 32, 33, 0.18);
+}
+
+.how-pin {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 6px auto 18px;
+  color: var(--tone-ink);
+}
+
+.how-card-note {
+  padding: 15px;
+  border: 1px solid var(--tone-border);
+  border-radius: 15px;
+  background: var(--tone-bg);
+}
+
+/* Hand written step number, in the same script face as the logo. */
+.how-num {
+  display: block;
+  font-family: var(--font-logo);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--tone-ink);
+  margin-bottom: 14px;
+}
+
+.how-card-note h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.how-card-note p {
+  font-size: 0.93rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--ink-soft);
+}
+
+/* Tones, taken from the logo palette. Each sets the note wash, its hairline
+   and the ink used for the pin and the number. */
+.how-tone-amber {
+  --tone-bg: #f9edd8;
+  --tone-border: #e8c48b;
+  --tone-ink: var(--fiber-brown-deep);
+}
+
+.how-tone-blue {
+  --tone-bg: #e7effc;
+  --tone-border: #b3cbee;
+  --tone-ink: #3a72bd;
+}
+
+.how-tone-pink {
+  --tone-bg: #fdeaf2;
+  --tone-border: #f4b6d0;
+  --tone-ink: var(--fiber-pink-deep);
+}
+
+.how-tone-green {
+  --tone-bg: #e2f7e7;
+  --tone-border: #a3dcb2;
+  --tone-ink: var(--fiber-green-mid);
+}
+
+/* Desktop: the cards leave the flow and sit at fixed spots on a 1000 x 1130
+   board, tilted left and right, with the dashed trail drawn behind them. The
+   board and the svg share that same coordinate space, so the curve always
+   meets the cards.
+
+   1080px, not the usual 860px: the board needs its full 1000px for that to
+   hold, and 1080 covers the 1000 plus the container's 28px sides plus room for
+   a scrollbar. Any narrower and the board shrinks while the svg keeps its
+   1000-wide viewBox, so the trail slides off the cards and the two columns
+   start to touch. Below this width the stacked column above is the better
+   layout anyway. */
+@media (min-width: 1080px) {
+  .how-stack {
+    display: block;
+    height: 1130px;
+  }
+
+  .how-trail {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* The per-gap curves belong to the column layout only; here the one long
+     trail above does the joining. */
+  .how-link {
+    display: none;
+  }
+
+  .how-card,
+  .how-card:nth-of-type(odd),
+  .how-card:nth-of-type(even) {
+    position: absolute;
+    width: 280px;
+    margin: 0;
+  }
+
+  .how-card:nth-of-type(1) {
+    top: 0;
+    left: 15%;
+    --rot: 8deg;
+  }
+
+  .how-card:nth-of-type(2) {
+    top: 120px;
+    right: 15%;
+    --rot: -8deg;
+  }
+
+  .how-card:nth-of-type(3) {
+    top: 450px;
+    left: 15%;
+    --rot: 8deg;
+  }
+
+  .how-card:nth-of-type(4) {
+    top: 570px;
+    right: 10%;
+    --rot: -8deg;
+  }
+
+  .how-card:nth-of-type(5) {
+    top: 850px;
+    left: 15%;
+    --rot: 8deg;
+  }
+}
+
+/* Phones: the same cards, scaled right down. Everything inside the note shrinks
+   and the cards get narrower, which both shortens the section and leaves room to
+   lean further to each side, so the zig-zag reads clearly on a small screen.
+   Sized against the 375 x 667 iPhone SE, the tightest case. */
+@media (max-width: 600px) {
+  .how {
+    padding: 26px 0 52px;
+  }
+
+  .how-head {
+    margin-bottom: 24px;
+  }
+
+  .how-head h2 {
+    font-size: 1.72rem;
+  }
+
+  .how-link {
+    height: 38px;
+  }
+
+  /* 72% leaves a 28% shift between a left-leaning card and a right-leaning one,
+     which is what makes the column zig-zag instead of merely wobble. */
+  .how-card {
+    width: 72%;
+    max-width: 280px;
+  }
+
+  /* The pin is lifted out of the flow and floated in a slim white margin at the
+     top, so it costs 24px of card height instead of its own 21px line plus a
+     margin. The margin is deep enough that the pin clears the note's top edge
+     rather than sitting on it. */
+  .how-card-paper {
+    position: relative;
+    padding: 24px 5px 5px;
+    border-radius: 16px;
+  }
+
+  .how-pin {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13px;
+    height: 13px;
+    margin: 0;
+  }
+
+  /* Number and title share one row instead of stacking, which takes a whole
+     line out of every card. The text then spans both columns underneath. */
+  .how-card-note {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    column-gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .how-num {
+    grid-column: 1;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  .how-card-note h3 {
+    grid-column: 2;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  .how-card-note p {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+  }
+
+  /* 0.75rem is 12px, the floor for body copy here. Any smaller and the cards
+     stop being readable on a phone, so further trimming has to come out of the
+     wording, not the type size. */
+  .how-card-note p {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+}
+
+/* ------------------------------------------------------------
    Audience: editorial layout, paper grid, giant metrics
    ------------------------------------------------------------ */
 
@@ -1680,6 +1995,12 @@ h3 {
   .cta-card {
     padding: 72px 24px;
     border-radius: 22px;
+  }
+
+  /* The desktop footer opens with 72px of clear space before the wordmark. On a
+     phone that reads as a band of empty black, so the run-up is cut right back. */
+  .footer {
+    padding-top: 24px;
   }
 
   .footer-giant {
