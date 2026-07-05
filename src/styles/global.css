@@ -35,7 +35,7 @@
   --strip-logo: linear-gradient(90deg, #fca91e 0% 33.4%, #ff7db1 33.4% 66.7%, #50c158 66.7% 100%);
 
   --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
-  --font-headline: 'Faster One', 'Bricolage Grotesque', cursive;
+  --font-headline: 'Faster One', 'Bricolage Grotesque', 'Segoe UI', sans-serif;
   --font-logo: 'MonteCarlo', cursive;
   --font-mono: 'IBM Plex Mono', Consolas, monospace;
 
@@ -287,28 +287,136 @@ h3 {
    Navbar
    ------------------------------------------------------------ */
 
+/* Floating glass bar: the header itself is a transparent, sticky wrapper and
+   the rounded glass pill lives on .navbar-inner. It hovers a little below the
+   top edge with side gaps, frosts whatever scrolls behind it, and carries a
+   soft inner highlight for the Apple liquid-glass feel. */
 .navbar {
-  position: sticky;
-  top: 0;
+  /* Fixed, not sticky: a sticky header reserves a strip in the page flow, and
+     the page background behind that strip showed as a dark band above the
+     hero. Floating it over the hero removes that band; the hero's own top
+     padding keeps the headline clear of the bar. */
+  position: fixed;
+  top: 14px;
+  left: 0;
+  right: 0;
   z-index: 100;
-  background: rgba(10, 10, 11, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  background: transparent;
+  transition: top 0.2s ease;
 }
 
 .navbar-scrolled {
-  border-bottom-color: var(--dark-line);
-  background: rgba(10, 10, 11, 0.9);
+  top: 10px;
+}
+
+.navbar-scrolled .navbar-inner {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 12px 34px rgba(0, 0, 0, 0.42);
 }
 
 .navbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
   gap: 24px;
+  /* Narrower than the container so there are gaps on both sides, and it
+     floats as a pill rather than a full-width strip. */
+  width: min(1060px, calc(100% - 28px));
+  margin: 0 auto;
+  height: 50px;
+  padding: 0 10px 0 16px;
+  border-radius: 15px;
+  /* Own stacking context + clip so the shimmer glow rides the bar's edge and
+     stays inside the rounded pill, tinting the glass without adding a stroke. */
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 10px 30px rgba(0, 0, 0, 0.35);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* A fixed-length dash of light glides along the glass bar's rounded edge at a
+   constant speed. offset-path: border-box follows the pill's own rounded
+   rectangle, and offset-rotate: auto keeps the dash tangent to the edge, so
+   its length and thickness never change and the corners stay smooth (no bump).
+   @property lets the colour tween smoothly through the logo palette. */
+@property --nav-light {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #fca91e;
+}
+
+.nav-shimmer {
+  position: absolute;
+  z-index: -1;
+  width: 130px;
+  height: 5px;
+  offset-path: border-box;
+  offset-distance: 0%;
+  offset-rotate: auto;
+  /* A soft streak, not a solid bar: it fades to transparent at both ends so
+     there are no sharp corners, and the pill's clip can never leave a hard
+     edge. The blur turns it into a gentle glide of light. */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--nav-light) 50%,
+    transparent 100%
+  );
+  filter: blur(1.4px);
+  opacity: 0.9;
+  pointer-events: none;
+  animation:
+    nav-beam-travel 5s linear infinite,
+    nav-beam-colors 9s linear infinite;
+}
+
+/* Browsers without coord-box motion paths (e.g. Firefox) simply skip the
+   effect instead of parking a static dash in the corner. */
+@supports not (offset-path: border-box) {
+  .nav-shimmer {
+    display: none;
+  }
+}
+
+@keyframes nav-beam-travel {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes nav-beam-colors {
+  0%,
+  100% {
+    --nav-light: #fca91e;
+  }
+  25% {
+    --nav-light: #ff7db1;
+  }
+  50% {
+    --nav-light: #50c158;
+  }
+  75% {
+    --nav-light: #4f90e4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-shimmer {
+    animation: none;
+    display: none;
+  }
 }
 
 .brand {
@@ -324,7 +432,7 @@ h3 {
 
 .brand-word {
   font-family: var(--font-display);
-  font-size: 1.42rem;
+  font-size: 1.22rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -431,10 +539,19 @@ h3 {
   position: relative;
   margin: 0 0 12px;
   max-width: none;
-  white-space: pre-line;
+  /* pre (not pre-line): the \n still becomes the line break between the two
+     lines, but words inside a line never wrap, so "Research Platform" always
+     stays together on the second line. The cqw font size still shrinks the
+     whole title on narrow screens so it never overflows. */
+  white-space: pre;
   font-family: var(--font-headline);
   font-weight: 400;
-  font-size: clamp(2rem, 8cqw, 108px);
+  /* Sized against the hero-copy container width. The floor is kept small on
+     purpose: "Research Platform" is a wide line, so on narrow phones the font
+     must keep shrinking with the screen. A larger floor would freeze the size
+     and push the second line off both edges. 7cqw leaves a side margin so the
+     line never touches the edges. */
+  font-size: clamp(1rem, 7.4cqw, 106px);
   line-height: 1.18;
   letter-spacing: 0.01em;
   text-align: center;
@@ -615,7 +732,9 @@ h3 {
 
 @media (max-width: 600px) {
   .hero {
-    padding: 64px 0 48px;
+    /* Top padding clears the floating nav with a comfortable gap, so the
+       headline never sits under the bar on phones. */
+    padding: 122px 0 48px;
   }
 
   .hero h1.hero-headline {
@@ -623,6 +742,9 @@ h3 {
   }
 
   .hero-device {
+    /* A little smaller than full width on phones, centered, so it does not
+       dominate the screen. */
+    width: 84%;
     margin-top: 28px;
   }
 }
@@ -1529,6 +1651,13 @@ h3 {
 @media (max-width: 600px) {
   .container {
     padding: 0 20px;
+  }
+
+  /* The nav pill keeps its own tighter padding on phones (the .container rule
+     above would otherwise inset the logo and button too far from the edges).
+     Logo sits closer to the left, Sign up closer to the right. */
+  .navbar-inner {
+    padding: 0 8px 0 12px;
   }
 
   .brand-word {
