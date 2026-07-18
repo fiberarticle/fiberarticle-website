@@ -360,17 +360,6 @@ h3 {
   margin-left: auto;
 }
 
-/* Bake the classic-button hover "shine" into the resting state so the
-   GitHub Org CTA reads polished without needing a hover. */
-.nav-cta.rt-variant-classic.rt-high-contrast {
-  filter: var(--base-button-classic-high-contrast-hover-filter);
-}
-
-.nav-cta.rt-variant-classic.rt-high-contrast::after {
-  background-color: var(--accent-12);
-  background-image: linear-gradient(var(--black-a5), transparent, var(--white-a2));
-}
-
 .nav-toggle {
   display: none;
   color: var(--dark-text);
