@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Button } from '@radix-ui/themes'
-import GitHubIcon from './GitHubIcon.jsx'
 
 export function Brand({ height = 36, style = {} }) {
   return (
@@ -38,16 +37,11 @@ export default function Navbar() {
             <Button
               className="nav-cta"
               asChild
-              variant="classic"
-              color="gray"
-              highContrast
+              variant="soft"
               size="2"
               radius="large"
             >
-              <a href="https://github.com/fiberarticle" target="_blank" rel="noreferrer">
-                <GitHubIcon size={16} />
-                GitHub Org
-              </a>
+              <a href="https://app.fiberarticle.com">Sign up</a>
             </Button>
           </div>
         </div>
