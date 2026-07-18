@@ -1317,29 +1317,6 @@ h3 {
   max-width: 320px;
 }
 
-.footer-social {
-  display: flex;
-  gap: 12px;
-  margin-top: 22px;
-}
-
-.footer-social a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  border: 1px solid var(--dark-line);
-  color: var(--dark-text-soft);
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.footer-social a:hover {
-  color: var(--fiber-pink);
-  border-color: rgba(255, 125, 177, 0.5);
-}
-
 .footer-legal {
   display: flex;
   justify-content: center;
@@ -1360,108 +1337,27 @@ h3 {
 .footer-giant-stack {
   position: relative;
   display: block;
-  width: min(84vw, 1060px);
+  width: min(92vw, 1180px);
 }
 
-.footer-giant svg {
+/* Wordmark built from paper sheets. The svg itself catches the pointer
+   (its .footer-giant parent stays pointer-events: none) and script lifts
+   every sheet near the cursor; the transition smooths each step. */
+.paper-word {
   display: block;
   width: 100%;
   height: auto;
+  pointer-events: auto;
 }
 
-/* Outline wordmark. Opaque fill painted over the stroke hides the
-   overlapping inner contours of the variable font glyphs. */
-.footer-giant-text {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 128px;
-  letter-spacing: 0.0267em;
-  fill: #0c0c0e;
-  stroke: rgba(252, 169, 30, 0.55);
-  stroke-width: 2.4;
-  paint-order: stroke fill;
-}
-
-/* Traveling light on the outline, StarBorder style: a bright amber
-   stroke-only copy of the wordmark, revealed through a soft window that
-   sweeps across the text while a dash glides along each letter's contour. */
-.footer-giant-light {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  --fa-light-color: #fca91e;
-  /* Whisper of glow; the cover text above the light layer keeps it (and
-     the interior seams) out of the letter interiors. */
-  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--fa-light-color) 55%, transparent));
-  /* The lit contour is only visible inside a soft window that sweeps
-     left to right, so one light travels through the word while the dash
-     glides along each letter's outline underneath it. */
-  -webkit-mask-image: radial-gradient(
-    ellipse 230px 200px at center,
-    #000 0%,
-    rgba(0, 0, 0, 0.85) 45%,
-    transparent 75%
-  );
-  mask-image: radial-gradient(
-    ellipse 230px 200px at center,
-    #000 0%,
-    rgba(0, 0, 0, 0.85) 45%,
-    transparent 75%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 460px 100%;
-  mask-size: 460px 100%;
-  animation: fa-footer-light-window 7s linear infinite;
-}
-
-@keyframes fa-footer-light-window {
-  0% {
-    -webkit-mask-position: -230px 50%;
-    mask-position: -230px 50%;
-  }
-  100% {
-    -webkit-mask-position: calc(100% + 230px) 50%;
-    mask-position: calc(100% + 230px) 50%;
-  }
-}
-
-/* A bright dash slides along each glyph's outline contour (letter holes
-   are their own subpaths, so they catch the light on their own lap). */
-.footer-giant-light-text {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 128px;
-  letter-spacing: 0.0267em;
-  fill: none;
-  stroke: var(--fa-light-color);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-dasharray: 110 640;
-  animation: fa-footer-outline-travel 5.5s linear infinite;
-}
-
-/* Sits above the light text: blacks out the letter interiors so the thin
-   lit trace and its glow only read on the outer contour. */
-.footer-giant-cover-text {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 128px;
-  letter-spacing: 0.0267em;
-  fill: #0c0c0e;
-  stroke: none;
-}
-
-@keyframes fa-footer-outline-travel {
-  to {
-    stroke-dashoffset: -750;
-  }
+.paper-word use {
+  transition: transform 0.18s ease-out;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .footer-giant-light {
-    animation: none;
-    display: none;
+  .paper-word use {
+    transition: none;
   }
 }
 
