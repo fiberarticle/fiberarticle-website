@@ -5,10 +5,11 @@ import { useEffect, useRef } from 'react'
  * from far away. Drawn on a canvas, not in the DOM: a full screen holds
  * thousands of cells and that many spans would cost far more than one paint.
  *
- * Every cell keeps its own alpha, taken from how close it sits to a bright
- * spot left of centre, so the digits crowd in the middle and fade out at the
- * edges. A few cells per tick swap their digit, which reads as a slow
- * shimmer; only those cells are repainted, so the loop stays cheap.
+ * Every cell keeps its own alpha, taken from how close it sits to the nearest
+ * of several bright patches spread over the whole panel, so the field carries
+ * light and shade right out to the corners. A few cells per tick swap their
+ * digit, which reads as a slow shimmer; only those cells are repainted, so the
+ * loop stays cheap.
  */
 
 const CHARS = '0123456789ABCDEF'
@@ -18,6 +19,27 @@ const BG = '#040604'
 const TICK_MS = 160
 /* Share of the cells that change digit on each tick. */
 const FLICKER = 0.012
+
+/* Centres of the bright patches, as fractions of the panel. A single lit spot
+   in the middle left the top, bottom and both sides dead, so these are placed
+   deliberately apart: two along the top edge, two along the bottom, one hard
+   left and one hard right, with the rest filling in between. */
+const PATCHES = [
+  [0.12, 0.07],
+  [0.66, 0.13],
+  [0.91, 0.31],
+  [0.36, 0.44],
+  [0.07, 0.63],
+  [0.74, 0.72],
+  [0.28, 0.88],
+  [0.88, 0.94],
+]
+
+/* Each patch reaches this far, again as a fraction of the panel rather than a
+   pixel count, so a wide desktop block and a tall narrow phone block get the
+   same spread instead of the phone collapsing to one flat wash. */
+const REACH_X = 0.44
+const REACH_Y = 0.28
 
 function pick() {
   return CHARS[Math.floor(Math.random() * CHARS.length)]
@@ -32,33 +54,50 @@ function pickColor() {
   return '245, 242, 236'
 }
 
-/* One cell per grid slot, minus the ones that stay empty. Alpha falls off with
-   distance from the bright spot, and is then squared against a random number so
-   most digits sit near invisible and only a few read clearly. */
+/* How lit a point is: nothing more than the distance to whichever patch is
+   closest, smoothed. Taking the nearest rather than the sum keeps a run of
+   overlapping patches from stacking into a hot streak. */
+function glowAt(x, y, w, h) {
+  let best = 0
+
+  for (let i = 0; i < PATCHES.length; i++) {
+    const dx = (x - PATCHES[i][0] * w) / (w * REACH_X)
+    const dy = (y - PATCHES[i][1] * h) / (h * REACH_Y)
+    const t = 1 - Math.min(1, Math.hypot(dx, dy))
+    if (t > best) best = t
+  }
+
+  /* Smoothstep, so a patch has no rim where it stops. */
+  return best * best * (3 - 2 * best)
+}
+
+/* One cell per grid slot, minus the ones that stay empty. Both how many digits
+   land and how bright each one is follow the glow, but each keeps a floor: the
+   coldest corner still has to read, which is the whole point of spreading the
+   patches. Alpha is then squared against a random number so most digits sit
+   faint and only a few stand out. */
 function buildCells(w, h) {
   const cols = Math.ceil(w / CELL)
   const rows = Math.ceil(h / CELL)
-  const focusX = w * 0.46
-  const focusY = h * 0.5
-  const maxDist = Math.hypot(w, h) * 0.52
   const cells = []
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const x = col * CELL
       const y = row * CELL
-      const near = 1 - Math.min(1, Math.hypot(x - focusX, y - focusY) / maxDist)
-      const density = 0.12 + near * 0.62
+      const glow = glowAt(x, y, w, h)
+      const density = 0.46 + glow * 0.32
 
       if (Math.random() > density) continue
 
       const roll = Math.random()
+      const lift = 0.58 + glow * 0.42
       cells.push({
         x,
         y,
         char: pick(),
         color: pickColor(),
-        alpha: Math.pow(near, 1.7) * (0.06 + 0.55 * roll * roll),
+        alpha: lift * (0.1 + 0.4 * roll * roll),
       })
     }
   }
