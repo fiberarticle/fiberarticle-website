@@ -761,8 +761,12 @@ h3 {
   padding: 84px 0 104px;
 }
 
-/* The hex digit field. Sits flat behind everything and fades out at the top and
-   bottom edges so it never fights the hero above or the footer below. */
+/* The hex digit field. Sits flat behind everything and runs the full height of
+   the section, corner to corner. The fade is only a hairline at each end, and
+   is given in pixels rather than a percentage so a tall phone column gets the
+   same thin seam as a short desktop block instead of losing a few hundred
+   pixels off the top. It is there so the digits do not begin on a hard
+   horizontal line where the hero above and the footer below meet. */
 .glyph-rain {
   position: absolute;
   inset: 0;
@@ -773,15 +777,15 @@ h3 {
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    #000 14%,
-    #000 82%,
+    #000 26px,
+    #000 calc(100% - 26px),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    #000 14%,
-    #000 82%,
+    #000 26px,
+    #000 calc(100% - 26px),
     transparent 100%
   );
 }
