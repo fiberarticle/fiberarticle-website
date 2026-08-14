@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '@radix-ui/themes'
 
 export function Brand({ height = 30, style = {} }) {
   return (
-    <a className="brand" href="#top" aria-label="Fiberarticle home" style={style}>
+    <Link className="brand" to="/" aria-label="Fiberarticle home" style={style}>
       <img
         src="/fiberarticle-logos/Fiberarticle_Logo_Without_Background.svg"
         alt=""
@@ -12,7 +13,7 @@ export function Brand({ height = 30, style = {} }) {
         style={{ height, width: 'auto' }}
       />
       <span className="brand-word">Fiberarticle</span>
-    </a>
+    </Link>
   )
 }
 
@@ -35,6 +36,10 @@ export default function Navbar() {
           <Brand />
 
           <div className="nav-actions">
+            <Link className="nav-link" to="/pricing">
+              Pricing
+            </Link>
+
             <Button
               className="nav-cta"
               asChild
