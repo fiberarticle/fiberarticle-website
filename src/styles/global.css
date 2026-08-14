@@ -1,4 +1,67 @@
 /* ============================================================
+   Tailwind v4 (utilities only)
+
+   Preflight is deliberately NOT imported. This site already ships a
+   hand-written reset and Radix Themes styles; loading Tailwind's base layer on
+   top of them would restyle the existing hero, cards and footer. Importing
+   only theme + utilities keeps Tailwind additive, so the shadcn pricing card
+   primitives in src/components/ui work exactly as written without touching a
+   single existing rule.
+
+   Because preflight is skipped, the few base rules those primitives rely on
+   (default border colour, list reset) are re-declared scoped to .fa-pricing at
+   the bottom of this block instead of globally.
+   ============================================================ */
+
+@layer theme, base;
+
+@import 'tailwindcss/theme.css' layer(theme);
+/* Utilities are imported UNLAYERED on purpose. Every rule already in this file
+   is unlayered too, and unlayered CSS beats any cascade layer regardless of
+   specificity - so `@import ... layer(utilities)` would let the plain `h2 {}`
+   and `a {}` rules below silently override Tailwind's text and colour
+   utilities. Unlayered, the utilities are ordinary classes and win on
+   specificity, while this file's own class rules still win over them by source
+   order where both apply. */
+@import 'tailwindcss/utilities.css';
+
+/* Class-based dark mode, the shadcn v4 pattern. <html class="dark"> is set in
+   index.html: the site has no light theme, and the pricing card's dark:
+   variants are the ones we want. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* shadcn tokens, dark values, pulled toward the Fiberarticle palette so the
+     cards sit in the same world as the rest of the page. */
+  --color-background: #050406;
+  --color-foreground: #f5f2ec;
+  --color-card: #0b0a0d;
+  --color-card-foreground: #f5f2ec;
+  --color-muted: #1a181d;
+  --color-muted-foreground: #a49d95;
+  --color-border: #3b3640;
+}
+
+/* Preflight substitutes, scoped so they cannot leak into the rest of the site,
+   and kept in @layer base so they sit below the unlayered utilities - a card
+   that asks for border-foreground/20 must still win over this default. */
+@layer base {
+  .fa-pricing *,
+  .fa-pricing ::before,
+  .fa-pricing ::after {
+    border-color: var(--color-border);
+  }
+
+  .fa-pricing ul {
+    list-style: none;
+  }
+
+  .fa-pricing svg {
+    display: block;
+  }
+}
+
+/* ============================================================
    Fiberarticle design system v2
    Charcoal and sand sections, accents taken
    straight from the logo: amber #FCA91E, brown #985203, green
@@ -1838,12 +1901,29 @@ h3 {
    Footer
    ------------------------------------------------------------ */
 
+/* Same ink as .how and the pricing stage, and no border, so the page does not
+   show a seam where the last section ends. The overlay below then dims the
+   footer downward, which is what makes it read as the page fading out rather
+   than as another panel stacked on top. */
 .footer {
   position: relative;
-  background: #0c0c0e;
-  border-top: 1px solid var(--dark-line);
+  background: #040604;
   padding: 72px 0 0;
   overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 58%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .footer-inner {
@@ -1862,6 +1942,8 @@ h3 {
 }
 
 .footer-legal {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   padding-bottom: 32px;
@@ -1871,6 +1953,7 @@ h3 {
 
 .footer-giant {
   position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -2070,5 +2153,71 @@ h3 {
   .tile {
     width: 88px;
     height: 88px;
+  }
+}
+
+/* The footer carries its own copy of the glyph field. Same fade at the top as
+   the section version, but the bottom is cut much higher: the copyright line is
+   anchored to the bottom of the footer, and printing digits behind 13px text
+   made it hard to read. Measured from the bottom rather than as a percentage so
+   the clear strip stays put whatever height the wordmark gives the footer. */
+.glyph-rain-footer {
+  /* Two layers, intersected. The linear one only softens the very top edge so
+     the field arrives out of the section above without a hard line. The radial
+     one punches a single soft hole centred on the copyright text.
+
+     A full-width horizontal fade was the obvious first move and it was wrong:
+     it emptied the whole bottom band, so the corners either side of the
+     copyright went bare. The hole is sized to the text, not to the footer. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0, #000 26px),
+    radial-gradient(
+      ellipse 340px 80px at 50% calc(100% - 42px),
+      transparent 0 42%,
+      #000 100%
+    );
+  mask-image:
+    linear-gradient(to bottom, transparent 0, #000 26px),
+    radial-gradient(
+      ellipse 340px 80px at 50% calc(100% - 42px),
+      transparent 0 42%,
+      #000 100%
+    );
+  /* Without this the two layers are added, not intersected, and the hole is
+     filled straight back in by the linear layer. */
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* ------------------------------------------------------------
+   Pricing stage
+
+   The backdrop is now the reference image, served from
+   public/pricing/pricing-bg.jpg and placed by Pricing.jsx as a full-bleed
+   <img> exactly the way the reference component does it. The hand-drawn CSS
+   arc that stood in for it has been removed rather than left behind dead.
+
+   The cards themselves are the shadcn primitives in
+   src/components/ui/pricing-card.tsx, styled only through Tailwind classes in
+   Pricing.jsx, so nothing in this file targets them.
+   ------------------------------------------------------------ */
+
+/* Nav link sits beside the Sign up button inside the glass pill, the way the
+   reference bar groups its links against its call to action. */
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--dark-text-soft);
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--white);
+}
+
+@media (max-width: 600px) {
+  .nav-actions {
+    gap: 12px;
   }
 }
