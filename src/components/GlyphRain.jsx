@@ -75,7 +75,13 @@ function glowAt(x, y, w, h) {
    land and how bright each one is follow the glow, but each keeps a floor: the
    coldest corner still has to read, which is the whole point of spreading the
    patches. Alpha is then squared against a random number so most digits sit
-   faint and only a few stand out. */
+   faint and only a few stand out.
+
+   Density is kept low on purpose. This is meant to read as texture behind the
+   cards, not as content: filling most of the grid turned the panel into a wall
+   of numbers that pulled the eye off the notes in front of it. Roughly a fifth
+   of the slots carry a digit in the dark corners, rising to two fifths inside a
+   bright patch, which keeps the light and shade without the noise. */
 function buildCells(w, h) {
   const cols = Math.ceil(w / CELL)
   const rows = Math.ceil(h / CELL)
@@ -86,7 +92,7 @@ function buildCells(w, h) {
       const x = col * CELL
       const y = row * CELL
       const glow = glowAt(x, y, w, h)
-      const density = 0.46 + glow * 0.32
+      const density = 0.19 + glow * 0.21
 
       if (Math.random() > density) continue
 
@@ -97,7 +103,7 @@ function buildCells(w, h) {
         y,
         char: pick(),
         color: pickColor(),
-        alpha: lift * (0.1 + 0.4 * roll * roll),
+        alpha: lift * (0.08 + 0.32 * roll * roll),
       })
     }
   }
@@ -114,7 +120,7 @@ function paint(ctx, cell) {
   ctx.fillText(cell.char, cell.x + 1, cell.y + FONT_SIZE)
 }
 
-export default function GlyphRain() {
+export default function GlyphRain({ className = '' }) {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -186,5 +192,11 @@ export default function GlyphRain() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="glyph-rain" aria-hidden="true" />
+  return (
+    <canvas
+      ref={canvasRef}
+      className={`glyph-rain ${className}`.trim()}
+      aria-hidden="true"
+    />
+  )
 }
