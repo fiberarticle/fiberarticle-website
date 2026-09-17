@@ -793,6 +793,43 @@ h3 {
   }
 }
 
+/* ------------------------------------------------------------------
+   Product demo video inside the laptop screen.
+
+   It sits above the screenshot slideshow and fades in only once the
+   element reports it is actually playing (.is-video on the screen), so a
+   blocked autoplay or a slow network shows the screenshots instead of a
+   black rectangle. Same fit rules as the slides: contain + top anchored,
+   so the whole 16:9 frame stays visible and the aspect mismatch collects
+   as bezel at the bottom. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  background: #000;
+  border-radius: clamp(4px, 0.7vw, 12px);
+  opacity: 0;
+  /* Promote once, so the cross-over from slideshow to video cannot cause a
+     repaint of the whole hero on a phone. */
+  transform: translateZ(0);
+  transition: opacity 420ms ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-device-screen.is-video .hero-video {
+  opacity: 1;
+}
+
+/* Once the video is up, stop animating the slides underneath it: the
+   keyframes would keep compositing behind an opaque video for nothing. */
+.hero-device-screen.is-video .hero-slideshow {
+  display: none;
+}
+
 @media (max-width: 600px) {
   .hero {
     /* Top padding clears the floating nav with a comfortable gap, so the
