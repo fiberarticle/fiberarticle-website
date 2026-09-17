@@ -14,6 +14,14 @@
 # falls back to a software decoder is exactly the stutter this is meant to
 # avoid. No audio track at all: the film is silent, and a missing track is one
 # less thing for iOS autoplay to object to.
+#
+# Colour handling is not optional here. The Remotion master comes out as
+# yuvj420p / full range with a BT.601 (bt470bg) matrix tag. Browsers ignore the
+# full-range flag on H.264 and expand the picture as if it were 16-235, which
+# pushes the product UI — 92% of its pixels sit above Y=235 — straight into
+# clipped white: Chrome decoded the master's (247,244,239) page background as
+# (255,255,250). So the web copy is converted to what every decoder assumes,
+# BT.709 limited range, and tagged as such.
 set -euo pipefail
 
 SRC="${1:-$HOME/Downloads/Fiberarticle_Product_Demo.mp4}"
@@ -22,11 +30,14 @@ OUT="$(cd "$(dirname "$0")/.." && pwd)/public/hero"
 [ -f "$SRC" ] || { echo "master not found: $SRC" >&2; exit 1; }
 mkdir -p "$OUT"
 
-echo "==> demo.mp4 (H.264 high, faststart, no audio)"
+echo "==> demo.mp4 (H.264 high, BT.709 limited range, faststart, no audio)"
 ffmpeg -y -hide_banner -loglevel error -i "$SRC" \
+  -vf "scale=in_color_matrix=bt470bg:out_color_matrix=bt709:in_range=full:out_range=limited" \
   -c:v libx264 -profile:v high -level 5.0 -preset slow -tune animation -crf 29 \
   -maxrate 6M -bufsize 12M \
-  -pix_fmt yuv420p -g 150 -keyint_min 150 -sc_threshold 0 \
+  -pix_fmt yuv420p -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
+  -x264-params "colorprim=bt709:transfer=bt709:colormatrix=bt709:fullrange=off" \
+  -g 150 -keyint_min 150 -sc_threshold 0 \
   -movflags +faststart -an "$OUT/demo.mp4"
 
 echo "==> demo-poster.webp (first frame of the dashboard)"
