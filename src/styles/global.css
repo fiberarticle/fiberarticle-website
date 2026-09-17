@@ -719,12 +719,6 @@ h3 {
   line-height: 0;
   /* Softly rounded glass corners, like a real laptop screen. */
   border-radius: clamp(4px, 0.7vw, 12px);
-  /* The product UI is a light theme (average luma ~240) sitting on a near
-     black page, so at full strength it glares and washes out the frame.
-     Dimming the whole screen -- video and screenshot fallback alike -- to
-     roughly the brightness of a real laptop panel keeps the UI legible
-     without blowing out the hero. */
-  filter: brightness(0.82) contrast(1.04) saturate(1.04);
 }
 
 /* Temporary product slideshow inside the laptop screen (until the demo
