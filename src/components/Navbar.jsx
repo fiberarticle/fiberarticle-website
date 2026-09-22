@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@radix-ui/themes'
+
+import { classify, surfaceFor } from '../routes.js'
 
 export function Brand({ height = 30, style = {} }) {
   return (
@@ -17,8 +19,19 @@ export function Brand({ height = 30, style = {} }) {
   )
 }
 
+/* Links point at the trailing-slash form of each page, which is the address
+   GitHub Pages actually serves (it answers /pricing with a redirect to
+   /pricing/), so neither visitors nor crawlers take an extra hop. */
+const LINKS = [
+  { to: '/pricing/', label: 'Pricing', kinds: ['pricing'] },
+  { to: '/blogs/', label: 'Blogs', kinds: ['blogs', 'post'] },
+]
+
 export default function Navbar() {
+  const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
+  const current = classify(pathname).kind
+  const onPaper = surfaceFor(pathname) === 'paper'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -27,19 +40,37 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const classes = ['navbar']
+  if (scrolled) classes.push('navbar-scrolled')
+  if (onPaper) classes.push('navbar-on-paper')
+
   return (
     <>
       <span id="top" className="top-anchor" aria-hidden="true" />
-      <header className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
+      <header className={classes.join(' ')}>
         <div className="container navbar-inner">
           <span className="nav-shimmer" aria-hidden="true" />
           <Brand />
 
-          <div className="nav-actions">
-            <Link className="nav-link" to="/pricing">
-              Pricing
-            </Link>
+          {/* The middle column of a 1fr / auto / 1fr grid, so these sit on the
+              true centre of the bar whatever the logo and button measure. */}
+          <nav className="nav-center" aria-label="Main">
+            {LINKS.map((link) => {
+              const active = link.kinds.includes(current)
+              return (
+                <Link
+                  key={link.to}
+                  className={`nav-link${active ? ' nav-link-active' : ''}`}
+                  to={link.to}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+          </nav>
 
+          <div className="nav-actions">
             <Button
               className="nav-cta"
               asChild
