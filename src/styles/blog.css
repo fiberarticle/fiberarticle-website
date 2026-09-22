@@ -1,0 +1,1682 @@
+/* ============================================================
+   The blog: a pen-and-paper desk
+
+   Everything under /blogs sits on a warm desk. Blogs are napkins and
+   notebook pages laid on it, drawn in fountain-pen ink with coloured-pencil
+   hatching. Bricolage Grotesque still carries the reading text, the way it
+   does across the whole site; Kalam is the handwriting for headings, notes
+   and captions, and Courier Prime is the typewriter for small print.
+
+   Textures are generated SVG noise, not images. Nothing here uses an em
+   dash or an emoji, in the copy or in generated content.
+   ============================================================ */
+
+:root {
+  --desk: #e7e1d6;
+  --desk-deep: #d9d1c3;
+  --napkin: #fcf9f3;
+  --napkin-edge: #e4dccd;
+  --notebook: #fbf7ee;
+  --frame: #f7f1e4;
+  --rule: rgba(118, 153, 194, 0.3);
+  --margin-red: rgba(214, 112, 96, 0.55);
+
+  --ink: #2b2521;
+  --ink-2: #3d3530;
+  --ink-soft: #6b6058;
+  --ink-faint: #978b7f;
+  --pen-blue: #3565ad;
+  --pen-green: #3f8f4f;
+  --pen-red: #c24f38;
+
+  --tone-amber: #e8931f;
+  --tone-amber-soft: #fde5b9;
+  --tone-pink: #e56d9d;
+  --tone-pink-soft: #fcdde8;
+  --tone-green: #55a55f;
+  --tone-green-soft: #dcefd8;
+  --tone-blue: #4a82cc;
+  --tone-blue-soft: #dce8f7;
+  --tone-red: #d0583f;
+  --tone-red-soft: #f9dcd2;
+
+  --hand: 'Kalam', 'Segoe Print', 'Comic Sans MS', cursive;
+  --type: 'Courier Prime', 'Courier New', monospace;
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .3 0 0 0 0 .24 0 0 0 .6 -.22'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='f' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.028' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .47 0 0 0 0 .38 0 0 0 .26 -.08'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23f)'/%3E%3C/svg%3E");
+  --torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='10'%3E%3Cpath d='M0 10V5l6-2 5 3 6-4 7 3 6-3.5 7 3 7-2.5 6 3.5 7-3 6 2.5 7-3.2 7 3 7-2.6 6 2.8V10z'/%3E%3C/svg%3E");
+  --wavy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8'%3E%3Cpath d='M0 4q6-4.2 12 0t12 0' fill='none' stroke='%236b6058' stroke-width='1.4'/%3E%3C/svg%3E");
+}
+
+html[data-surface='paper'],
+html[data-surface='paper'] body {
+  background: var(--desk);
+}
+
+/* ------------------------------------------------------------ desk */
+
+.desk {
+  position: relative;
+  min-height: 100svh;
+  padding: 104px 0 0;
+  overflow-x: clip;
+  color: var(--ink-2);
+  background-color: var(--desk);
+  background-image: var(--grain), radial-gradient(ellipse at 50% 0%, rgba(255, 252, 245, 0.55), transparent 62%);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+.desk ::selection {
+  background: rgba(232, 147, 31, 0.28);
+  color: var(--ink);
+}
+
+.desk a {
+  color: inherit;
+}
+
+.desk-inner {
+  position: relative;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.hand {
+  font-family: var(--hand);
+}
+
+.type {
+  font-family: var(--type);
+}
+
+.desk .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------ paper */
+
+/* A napkin: soft paper lifted off the desk, with a thin double rule drawn
+   just inside its edge like the penpal cards. */
+.napkin {
+  position: relative;
+  background-color: var(--napkin);
+  background-image: var(--fibre), var(--grain);
+  border-radius: 3px 5px 4px 3px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 0 0 1px rgba(122, 101, 76, 0.13),
+    0 2px 3px rgba(80, 60, 40, 0.08),
+    0 18px 36px -18px rgba(80, 60, 40, 0.34);
+}
+
+.napkin-frame::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(90, 76, 64, 0.2);
+  border-radius: 2px;
+  box-shadow: 0 0 0 3px var(--napkin), 0 0 0 4px rgba(90, 76, 64, 0.1);
+  pointer-events: none;
+}
+
+/* A notebook page: blue rules, a red line across the top, and a torn
+   upper edge. The tear is a mask, so the page's shadow comes from a
+   drop-shadow filter on the wrapper (a mask would clip a box-shadow). */
+.notebook-wrap {
+  filter: drop-shadow(0 1px 1px rgba(80, 60, 40, 0.1)) drop-shadow(0 12px 16px rgba(80, 60, 40, 0.14));
+}
+
+.notebook {
+  --rule-size: 32px;
+  --rule-top: 54px;
+  --red-line: 34px;
+  position: relative;
+  padding: var(--rule-top) 22px 26px;
+  background-color: var(--notebook);
+  background-image:
+    var(--grain),
+    linear-gradient(
+      to bottom,
+      transparent var(--red-line),
+      var(--margin-red) var(--red-line),
+      var(--margin-red) calc(var(--red-line) + 1.5px),
+      transparent calc(var(--red-line) + 1.5px)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--rule-size) - 1px),
+      var(--rule) calc(var(--rule-size) - 1px),
+      var(--rule) var(--rule-size)
+    );
+  background-position: 0 0, 0 0, 0 calc(var(--rule-top) + 1px);
+  background-repeat: repeat, no-repeat, repeat;
+  -webkit-mask:
+    var(--torn) 0 0 / 90px 10px repeat-x,
+    linear-gradient(#000 0 0) 0 9px / 100% calc(100% - 9px) no-repeat;
+  mask:
+    var(--torn) 0 0 / 90px 10px repeat-x,
+    linear-gradient(#000 0 0) 0 9px / 100% calc(100% - 9px) no-repeat;
+}
+
+/* A strip of washi tape holding something down. */
+.tape {
+  position: absolute;
+  z-index: 3;
+  width: 84px;
+  height: 24px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 3px, transparent 3px 7px),
+    rgba(234, 219, 186, 0.78);
+  clip-path: polygon(0 12%, 4% 0, 96% 3%, 100% 14%, 97% 34%, 100% 55%, 96% 74%, 100% 92%, 94% 100%, 5% 97%, 0 86%, 3% 66%, 0 46%, 3% 27%);
+  box-shadow: 0 1px 2px rgba(80, 60, 40, 0.12);
+  pointer-events: none;
+}
+
+.tape-left {
+  top: -11px;
+  left: 28px;
+  transform: rotate(-4deg);
+}
+
+.tape-right {
+  top: -10px;
+  right: 30px;
+  transform: rotate(3.5deg);
+}
+
+/* The penpal wavy rule, as a divider between parts of a page. */
+.wavy {
+  height: 8px;
+  background: var(--wavy) 0 50% / 24px 8px repeat-x;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------ small print, tags, keys */
+
+.check-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-family: var(--type);
+  font-size: 0.9rem;
+  color: var(--pen-green);
+}
+
+.check-line .dot {
+  color: var(--ink-faint);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1em;
+  padding: 1px 7px;
+  font-family: var(--type);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  background: #fffdf8;
+  border: 1.4px solid rgba(43, 37, 33, 0.62);
+  border-radius: 5px 4px 6px 4px;
+  box-shadow: 0 2px 0 rgba(43, 37, 33, 0.22);
+  white-space: nowrap;
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--hand);
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--ink-2);
+  padding-bottom: 2px;
+  background: var(--scribble) left bottom / 100% 6px no-repeat;
+}
+
+/* Hand underlines in each pencil. Inline and clone-broken, so a heading
+   that wraps gets an underline under every line instead of one long swipe. */
+.tone-amber {
+  --tone: var(--tone-amber);
+  --tone-soft: var(--tone-amber-soft);
+  --scribble: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8C60 4.6 112 9.6 170 6.4S262 5.2 297 7.6' fill='none' stroke='%23e8931f' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.tone-pink {
+  --tone: var(--tone-pink);
+  --tone-soft: var(--tone-pink-soft);
+  --scribble: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8C60 4.6 112 9.6 170 6.4S262 5.2 297 7.6' fill='none' stroke='%23e56d9d' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.tone-green {
+  --tone: var(--tone-green);
+  --tone-soft: var(--tone-green-soft);
+  --scribble: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8C60 4.6 112 9.6 170 6.4S262 5.2 297 7.6' fill='none' stroke='%2355a55f' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.tone-blue {
+  --tone: var(--tone-blue);
+  --tone-soft: var(--tone-blue-soft);
+  --scribble: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8C60 4.6 112 9.6 170 6.4S262 5.2 297 7.6' fill='none' stroke='%234a82cc' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.tone-red {
+  --tone: var(--tone-red);
+  --tone-soft: var(--tone-red-soft);
+  --scribble: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 12' preserveAspectRatio='none'%3E%3Cpath d='M3 8C60 4.6 112 9.6 170 6.4S262 5.2 297 7.6' fill='none' stroke='%23d0583f' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.scribble {
+  padding-bottom: 0.14em;
+  background: var(--scribble) left bottom / 100% 0.3em no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ------------------------------------------------------------ drawings */
+
+.ink-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ink-hand {
+  font-family: var(--hand);
+}
+
+.ink-type {
+  font-family: var(--type);
+}
+
+.ink-figure {
+  margin: 0;
+}
+
+/* The drawing's own sheet of cream paper, a shade warmer than the napkin
+   it is pasted on, with a pencil edge. */
+.ink-frame {
+  position: relative;
+  padding: 14px;
+  background-color: var(--frame);
+  background-image: var(--fibre);
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(122, 101, 76, 0.18),
+    0 1px 2px rgba(80, 60, 40, 0.08),
+    0 10px 22px -16px rgba(80, 60, 40, 0.4);
+}
+
+.ink-figure-hero .ink-frame {
+  padding: 18px;
+  transform: rotate(-0.35deg);
+}
+
+.ink-figure figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 12px 4px 0;
+  font-family: var(--hand);
+  font-size: 1.04rem;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.fig-no {
+  flex: none;
+  font-family: var(--type);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+/* Parts every scene shares. Their motion only runs while the drawing is on
+   screen (the stage carries data-play then). The stage test sits inside
+   :where(), which gives it no weight, so a scene's own rule for any of these
+   parts (".s-ab3 .bot-light") always wins over the default here. */
+
+/* Pip blinks every two seconds; each Pip carries its own small delay (set
+   in cast.jsx), so a scene with several never blinks in unison. */
+:where(.ink-stage[data-play]) .pip-eyes {
+  animation: ink-blink 2s ease-in-out infinite;
+}
+
+:where(.ink-stage[data-play]) .steam {
+  animation: ink-steam 3.6s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -1.2s);
+}
+
+:where(.ink-stage[data-play]) .bulb-rays,
+:where(.ink-stage[data-play]) .bot-light {
+  animation: ink-glow 2.2s ease-in-out infinite;
+}
+
+:where(.ink-stage[data-play]) .sun-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ink-spin 40s linear infinite;
+}
+
+:where(.ink-stage[data-play]) .worm-seg {
+  animation: ink-inch 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.13s);
+}
+
+:where(.ink-stage[data-play]) .flag-cloth {
+  animation: ink-flutter 1.9s ease-in-out infinite;
+}
+
+:where(.ink-stage[data-play]) .lamp-light,
+:where(.ink-stage[data-play]) .torch-beam {
+  animation: ink-flicker 5s linear infinite;
+}
+
+@keyframes ink-blink {
+  0%,
+  86%,
+  100% {
+    transform: scaleY(1);
+  }
+  93% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes ink-steam {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.15;
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes ink-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes ink-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ink-inch {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes ink-flutter {
+  0%,
+  100% {
+    transform: skewY(0deg) scaleX(1);
+  }
+  50% {
+    transform: skewY(-4deg) scaleX(0.94);
+  }
+}
+
+@keyframes ink-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 0.84;
+  }
+  48% {
+    opacity: 0.97;
+  }
+  53% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+/* Off screen, a drawing holds still wherever it is. Every story loop starts
+   and ends on the resting picture, so a paused drawing that has not played
+   yet is simply the picture. */
+.ink-stage:not([data-play]) .ink-scene,
+.ink-stage:not([data-play]) .ink-scene * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-scene,
+  .ink-scene * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .story-card,
+  .story-card .card-sheet {
+    transition: none !important;
+  }
+}
+
+/* ------------------------------------------------------------ reading text */
+
+.prose {
+  font-size: 1.125rem;
+  line-height: 1.82;
+  color: var(--ink-2);
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose p {
+  text-wrap: pretty;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--pen-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(53, 101, 173, 0.42);
+  transition: text-decoration-color 0.15s ease;
+}
+
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* A highlighter swipe: uneven at both ends, never a perfect box. */
+.hl-mark {
+  padding: 0.02em 0.2em;
+  margin: 0 -0.08em;
+  color: inherit;
+  background:
+    linear-gradient(104deg, transparent 0.9%, rgba(252, 192, 72, 0.5) 2.4%, rgba(252, 192, 72, 0.34) 5.8%, rgba(252, 192, 72, 0.3) 93%, rgba(252, 192, 72, 0.5) 96%, transparent 98%),
+    linear-gradient(183deg, transparent 0%, rgba(252, 192, 72, 0.22) 8%, transparent 16%);
+  border-radius: 0.3em 0.7em 0.4em 0.6em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* A margin note on a slip of paper, with its label handwritten in red. */
+.note {
+  position: relative;
+  padding: 16px 20px 16px 22px;
+  background: #fffdf7;
+  border: 1.5px dashed rgba(107, 96, 88, 0.45);
+  border-radius: 6px 10px 7px 9px;
+}
+
+.note-label {
+  display: inline-block;
+  margin-right: 8px;
+  font-family: var(--hand);
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--tone, var(--pen-red));
+}
+
+.note p {
+  display: inline;
+}
+
+/* A pull quote on a sticky note. */
+.sticky-quote {
+  position: relative;
+  margin: 1.6em auto;
+  max-width: 560px;
+  padding: 30px 30px 24px;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent 38%),
+    var(--tone-soft, var(--tone-amber-soft));
+  border-radius: 2px 2px 3px 16px;
+  box-shadow:
+    0 1px 1px rgba(80, 60, 40, 0.1),
+    0 14px 18px -14px rgba(80, 60, 40, 0.45);
+  transform: rotate(-1.1deg);
+}
+
+.sticky-quote:nth-of-type(even) {
+  transform: rotate(0.9deg);
+}
+
+.sticky-quote .tape {
+  top: -12px;
+  left: 50%;
+  margin-left: -42px;
+  transform: rotate(-2deg);
+}
+
+.sticky-quote p {
+  font-family: var(--hand);
+  font-size: 1.42rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.sticky-quote footer {
+  margin-top: 12px;
+  font-family: var(--type);
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+/* Lists with hand-drawn markers. */
+.hand-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.hand-list li {
+  position: relative;
+  padding-left: 34px;
+}
+
+.hand-list li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.62em;
+  width: 16px;
+  height: 12px;
+  background: no-repeat center / contain;
+}
+
+.list-dots li::before {
+  top: 0.66em;
+  width: 11px;
+  height: 11px;
+  left: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6.2 1.6C9.4 1.4 10.8 4 10.5 6.4 10.1 9.4 7.4 10.8 5.4 10.4 2.8 9.9 1.3 7.7 1.6 5.4 1.9 3.2 3.7 1.7 6.2 1.6Z' fill='%23e8931f' stroke='%232b2521' stroke-width='1.1'/%3E%3C/svg%3E");
+}
+
+.list-check li::before {
+  top: 0.45em;
+  width: 18px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 18'%3E%3Cpath d='M2.5 9.5q3 1.6 4.6 5.8Q10.6 6 18 1.8' fill='none' stroke='%233f8f4f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.list-cross li::before {
+  top: 0.5em;
+  width: 15px;
+  height: 15px;
+  left: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 2.8Q8 7.6 13.6 13.4M13.2 2.4Q7.8 8.4 2.8 13.6' fill='none' stroke='%23c24f38' stroke-width='2.3' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.list-numbers {
+  counter-reset: hand;
+}
+
+.list-numbers li {
+  counter-increment: hand;
+}
+
+.list-numbers li::before {
+  content: counter(hand);
+  top: 0.05em;
+  left: 0;
+  width: 26px;
+  height: auto;
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--tone-amber);
+}
+
+/* Steps: circled numbers joined by a dashed pencil line. */
+.steps {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: relative;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 58px;
+  min-height: 42px;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-family: var(--hand);
+  font-size: 1.28rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--tone-soft, var(--tone-amber-soft));
+  border: 1.8px solid var(--ink);
+  border-radius: 52% 48% 50% 46% / 48% 52% 46% 54%;
+}
+
+.steps li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 44px;
+  bottom: -20px;
+  border-left: 1.8px dashed rgba(43, 37, 33, 0.35);
+}
+
+.steps .step-title {
+  display: block;
+  font-family: var(--hand);
+  font-size: 1.24rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* Two napkins side by side, for this against that. */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.compare-card {
+  position: relative;
+  padding: 18px 20px 20px;
+  background: #fffdf8;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(122, 101, 76, 0.16),
+    0 10px 18px -14px rgba(80, 60, 40, 0.4);
+}
+
+.compare-card:first-child {
+  transform: rotate(-0.6deg);
+}
+
+.compare-card:last-child {
+  transform: rotate(0.5deg);
+}
+
+.compare-card h3 {
+  font-family: var(--hand);
+  font-size: 1.28rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.compare-card .hand-list {
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+/* A word and what it means, like a card in a glossary box. */
+.define {
+  position: relative;
+  padding: 18px 22px 18px 24px;
+  background: var(--tone-soft, var(--tone-blue-soft));
+  border-radius: 3px;
+  box-shadow: 0 10px 16px -14px rgba(80, 60, 40, 0.45);
+}
+
+.define dt {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.define dt .type {
+  margin-left: 8px;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.define dd {
+  margin-top: 4px;
+}
+
+/* A ruled table, handwritten header. */
+.hand-table-wrap {
+  overflow-x: auto;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(122, 101, 76, 0.2),
+    0 10px 18px -14px rgba(80, 60, 40, 0.4);
+}
+
+.hand-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fffdf8;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.hand-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-family: var(--hand);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--tone-soft, var(--tone-amber-soft));
+  border-bottom: 1.5px solid rgba(43, 37, 33, 0.5);
+}
+
+.hand-table td {
+  padding: 11px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hand-table tr:last-child td {
+  border-bottom: none;
+}
+
+.hand-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------ blog index */
+
+.index-top {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 36px;
+  padding: 50px 52px 50px;
+}
+
+.index-title {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: clamp(2.3rem, 4.6vw, 3.7rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.index-art {
+  position: relative;
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.table-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin: 64px 4px 26px;
+}
+
+.shelf-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shelf-tab {
+  position: relative;
+  padding: 5px 13px 4px;
+  font-family: var(--hand);
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 247, 0.6);
+  border: 1.4px solid rgba(43, 37, 33, 0.28);
+  border-radius: 999px 900px 950px 880px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.shelf-tab:hover {
+  color: var(--ink);
+  border-color: rgba(43, 37, 33, 0.5);
+}
+
+.shelf-tab[aria-pressed='true'] {
+  color: var(--ink);
+  background: var(--tone-soft, #fffdf7);
+  border-color: var(--ink);
+}
+
+.shelf-tab .count {
+  margin-left: 6px;
+  font-family: var(--type);
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+}
+
+.shelf-tab:focus-visible {
+  outline: 2px dashed var(--pen-blue);
+  outline-offset: 3px;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 34px;
+  padding: 6px 4px 0;
+}
+
+/* One blog on the table. The sheet leans a little (the angle comes from
+   the card's --tilt) and straightens as it is picked up. */
+.story-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.story-card .card-sheet {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 20px;
+  background-color: var(--napkin);
+  background-image: var(--fibre);
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(122, 101, 76, 0.14),
+    0 2px 3px rgba(80, 60, 40, 0.08),
+    0 16px 26px -18px rgba(80, 60, 40, 0.42);
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.28s ease;
+}
+
+.story-card:hover .card-sheet,
+.story-card:focus-visible .card-sheet {
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow:
+    0 0 0 1px rgba(122, 101, 76, 0.18),
+    0 4px 6px rgba(80, 60, 40, 0.1),
+    0 26px 34px -20px rgba(80, 60, 40, 0.5);
+}
+
+.story-card:focus-visible {
+  outline: none;
+}
+
+.story-card:focus-visible .card-sheet {
+  outline: 2px dashed var(--pen-blue);
+  outline-offset: 6px;
+}
+
+.story-card .tape {
+  top: -10px;
+  left: 50%;
+  margin-left: -42px;
+  transform: rotate(var(--tape-tilt, -3deg));
+}
+
+.card-art {
+  padding: 8px;
+  background: var(--frame);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(122, 101, 76, 0.14);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 14px 6px 0;
+}
+
+.card-title {
+  margin: 8px 0 8px;
+  font-family: var(--hand);
+  font-size: 1.36rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.card-desc {
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+/* ------------------------------------------------------------ the post */
+
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  height: 4px;
+  background: repeating-linear-gradient(-48deg, #e8931f 0 2px, #f6c56c 2px 5px);
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+  pointer-events: none;
+}
+
+.post-layout {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  align-items: start;
+  gap: 40px;
+  width: min(1180px, calc(100% - 40px));
+}
+
+.post-rail {
+  position: sticky;
+  top: 92px;
+}
+
+.toc {
+  --rule-size: 32px;
+  --rule-top: 62px;
+  --red-line: 46px;
+  padding-left: 18px;
+  padding-right: 16px;
+  max-height: calc(100svh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.toc-title {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.toc ol {
+  list-style: none;
+}
+
+.toc li a {
+  position: relative;
+  display: block;
+  padding: 0 4px 0 22px;
+  font-family: var(--hand);
+  font-size: 0.98rem;
+  line-height: 32px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  text-wrap: pretty;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.toc li a:hover {
+  color: var(--ink);
+}
+
+/* Long headings wrap; each line keeps to a ruled line (line-height is the
+   rule size), and the dash or tick sits on the first one. */
+.toc li a::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 15px;
+  width: 10px;
+  height: 1.6px;
+  background: rgba(43, 37, 33, 0.35);
+  border-radius: 2px;
+}
+
+.toc li a.is-read::before {
+  top: 9px;
+  width: 12px;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 18'%3E%3Cpath d='M2.5 9.5q3 1.6 4.6 5.8Q10.6 6 18 1.8' fill='none' stroke='%233f8f4f' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.toc li a.is-active {
+  color: var(--ink);
+  font-weight: 700;
+  background: linear-gradient(104deg, transparent 2%, rgba(252, 192, 72, 0.42) 5%, rgba(252, 192, 72, 0.3) 92%, transparent 97%);
+}
+
+.toc-tab {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  margin-top: 32px;
+  font-family: var(--hand);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.hatch-bar {
+  position: relative;
+  height: 12px;
+  border: 1.4px solid rgba(43, 37, 33, 0.7);
+  border-radius: 2px 3px 2px 3px;
+  background: #fffdf8;
+  overflow: hidden;
+}
+
+.hatch-bar span {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(-48deg, rgba(232, 147, 31, 0.85) 0 1.6px, transparent 1.6px 4.2px);
+  transform-origin: left center;
+  transform: scaleX(var(--value, 0));
+}
+
+.toc-pct {
+  font-family: var(--type);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 3.4ch;
+  text-align: right;
+}
+
+.toc-back {
+  display: block;
+  height: 32px;
+  font-family: var(--hand);
+  font-size: 0.98rem;
+  line-height: 32px;
+  color: var(--pen-blue);
+  text-decoration: none;
+}
+
+.toc-back:hover {
+  text-decoration: underline;
+}
+
+.post {
+  padding: 56px 64px 60px;
+  min-width: 0;
+}
+
+.post-head {
+  margin: 38px 0 34px;
+}
+
+.post-title {
+  margin: 0 0 16px;
+  font-family: var(--hand);
+  font-size: clamp(2.15rem, 4.2vw, 3.3rem);
+  font-weight: 700;
+  line-height: 1.13;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.post-dek {
+  font-size: 1.2rem;
+  line-height: 1.66;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.post-meta {
+  margin-top: 18px;
+}
+
+.post-meta a {
+  color: var(--pen-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(63, 143, 79, 0.4);
+}
+
+.post-intro {
+  margin-bottom: 8px;
+}
+
+.post-intro > p:first-child::first-letter {
+  float: left;
+  margin: 0.08em 0.12em 0 0;
+  font-family: var(--hand);
+  font-size: 3.4em;
+  font-weight: 700;
+  line-height: 0.8;
+  color: var(--tone-amber);
+}
+
+.toc-mobile {
+  display: none;
+}
+
+.post-divider {
+  margin: 54px 0 46px;
+}
+
+.post-section {
+  scroll-margin-top: 96px;
+}
+
+.post-section h2 {
+  margin-bottom: 26px;
+  font-family: var(--hand);
+  font-size: clamp(1.6rem, 2.8vw, 2.05rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.post-section .ink-figure {
+  margin: 0 0 30px;
+}
+
+.post-end {
+  margin-top: 60px;
+}
+
+.takeaways {
+  --rule-size: 34px;
+  --rule-top: 70px;
+  --red-line: 52px;
+  padding-left: 44px;
+  padding-right: 30px;
+}
+
+.takeaways h2 {
+  position: absolute;
+  top: 12px;
+  left: 44px;
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.takeaways ul {
+  list-style: none;
+}
+
+/* Exactly one rule per line of text, so every line sits on the ruling. */
+.takeaways li {
+  position: relative;
+  padding: 0 0 0 30px;
+  font-family: var(--hand);
+  font-size: 1.1rem;
+  line-height: 34px;
+  color: var(--ink-2);
+}
+
+.takeaways li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 18px;
+  height: 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 18'%3E%3Cpath d='M2.5 9.5q3 1.6 4.6 5.8Q10.6 6 18 1.8' fill='none' stroke='%233f8f4f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.qa {
+  margin-top: 56px;
+}
+
+.qa > h2 {
+  margin-bottom: 22px;
+  font-family: var(--hand);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.qa-item + .qa-item {
+  margin-top: 26px;
+}
+
+.qa-item h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--hand);
+  font-size: 1.24rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.qa-item h3::before {
+  content: 'Q';
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--tone-blue-soft);
+  border: 1.6px solid var(--ink);
+  border-radius: 50% 46% 52% 48%;
+  transform: translateY(-2px);
+}
+
+.qa-item .prose {
+  margin-top: 8px;
+  padding-left: 40px;
+  font-size: 1.06rem;
+}
+
+.post-cta {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px 32px;
+  margin-top: 60px;
+  padding: 30px 32px;
+  background: #fff9ec;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1.5px rgba(207, 127, 20, 0.35),
+    0 12px 20px -16px rgba(80, 60, 40, 0.45);
+}
+
+.post-cta h2 {
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.post-cta p {
+  margin-top: 6px;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.post-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.on-table {
+  width: min(1180px, calc(100% - 40px));
+  margin: 80px auto 0;
+}
+
+.on-table .story-grid {
+  margin-top: 26px;
+}
+
+/* ------------------------------------------------------------ loading, missing */
+
+.paper-wait {
+  display: grid;
+  place-items: center;
+  min-height: 60svh;
+}
+
+.paper-wait .napkin {
+  padding: 46px 56px;
+  text-align: center;
+}
+
+.paper-wait p {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
+.paper-wait p + * {
+  margin-top: 20px;
+}
+
+.missing {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 30px;
+  width: min(900px, calc(100% - 40px));
+  margin: 30px auto 0;
+  padding: 52px 56px;
+}
+
+.missing h1 {
+  font-family: var(--hand);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.missing p {
+  margin-top: 12px;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.missing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  margin-top: 24px;
+}
+
+/* ------------------------------------------------------------ paper footer */
+
+.paper-footer {
+  position: relative;
+  margin-top: 110px;
+  padding: 0 0 26px;
+}
+
+.paper-footer .footer-giant {
+  padding-bottom: 20px;
+}
+
+.paper-footer-legal {
+  text-align: center;
+  font-family: var(--type);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1180px) {
+  .post-layout {
+    grid-template-columns: 212px minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .post {
+    padding: 52px 48px 56px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .index-top {
+    padding: 44px 40px 44px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .post-layout {
+    display: block;
+    width: min(820px, calc(100% - 40px));
+  }
+
+  .post-rail {
+    display: none;
+  }
+
+  .toc-mobile {
+    display: block;
+    margin: 34px 0 6px;
+  }
+
+  .toc-mobile summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    font-family: var(--hand);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--notebook);
+    border: 1.5px solid rgba(43, 37, 33, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .toc-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-mobile summary::after {
+    content: '+';
+    font-family: var(--type);
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+  }
+
+  .toc-mobile[open] summary::after {
+    content: '\2212';
+  }
+
+  .toc-mobile ol {
+    list-style: none;
+    margin-top: 10px;
+    padding: 6px 18px 10px;
+    background: var(--notebook);
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(122, 101, 76, 0.16);
+  }
+
+  .toc-mobile li a {
+    display: block;
+    padding: 7px 0;
+    font-family: var(--hand);
+    font-size: 1.05rem;
+    color: var(--pen-blue);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .toc-mobile li:last-child a {
+    border-bottom: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .read-progress {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .index-top {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .index-art {
+    order: -1;
+  }
+
+  .missing {
+    grid-template-columns: 1fr;
+    padding: 40px 34px;
+  }
+
+  .post-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .post-cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .desk {
+    padding-top: 88px;
+  }
+
+  .desk-inner,
+  .post-layout,
+  .on-table {
+    width: calc(100% - 24px);
+  }
+
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .napkin-frame::before {
+    inset: 8px;
+  }
+
+  .index-top {
+    padding: 30px 22px 32px;
+  }
+
+  .post {
+    padding: 30px 18px 40px;
+  }
+
+  .post-head {
+    margin: 26px 0 26px;
+  }
+
+  .prose {
+    font-size: 1.06rem;
+    line-height: 1.78;
+  }
+
+  .post-dek {
+    font-size: 1.08rem;
+  }
+
+  .ink-frame {
+    padding: 8px;
+  }
+
+  .ink-figure-hero .ink-frame {
+    padding: 10px;
+  }
+
+  .tape {
+    width: 66px;
+    height: 20px;
+  }
+
+  .compare {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-quote {
+    padding: 26px 20px 20px;
+  }
+
+  .sticky-quote p {
+    font-size: 1.26rem;
+  }
+
+  .steps li {
+    padding-left: 52px;
+  }
+
+  .qa-item .prose {
+    padding-left: 0;
+  }
+
+  .takeaways {
+    padding-left: 22px;
+    padding-right: 16px;
+  }
+
+  .takeaways h2 {
+    left: 22px;
+  }
+
+  .post-cta {
+    padding: 24px 20px;
+  }
+
+  .table-head {
+    margin-top: 52px;
+  }
+
+  .missing {
+    padding: 32px 22px;
+  }
+}
