@@ -1,0 +1,22 @@
+<!doctype html>
+<!--
+  Development only: the 1200 x 630 share card for a blog page, which
+  scripts/make-og-images.mjs photographs into public/blog/og/. Vite serves
+  this file in `npm run dev`; the build never includes it. See src/dev/og.jsx.
+-->
+<html lang="en" class="dark" data-surface="paper">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200" />
+    <meta name="robots" content="noindex" />
+    <title>Share card</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Kalam:wght@300;400;700&family=Courier+Prime:wght@400;700&display=block"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="og"></div>
+    <script type="module" src="/src/dev/og.jsx"></script>
+  </body>
+</html>
