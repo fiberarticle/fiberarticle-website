@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Everything between the two markers below is the per-page head. The
+         build (scripts/prerender.mjs) swaps it for each route's own title,
+         description, canonical link, social tags and structured data, and
+         src/seo/useHead.js keeps it in step while a visitor moves between
+         pages. What sits here by default is the home page's head. -->
+    <!--head-start-->
     <title>Fiberarticle</title>
     <meta
       name="description"
@@ -16,13 +22,17 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fiberarticle.com" />
     <link rel="canonical" href="https://fiberarticle.com" />
+    <!--head-end-->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
     <link rel="apple-touch-icon" href="/favicon.svg?v=3" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Body and UI fonts use display=swap so text is never hidden. -->
+    <!-- Body and UI fonts use display=swap so text is never hidden. Kalam (the
+         handwriting) and Courier Prime (the typewriter) belong to the blog;
+         a browser only downloads a face when a page actually uses it, so the
+         home page pays nothing for them. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Kalam:wght@300;400;700&family=Courier+Prime:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <!-- Display fonts (headline, logo) use display=block: the browser waits

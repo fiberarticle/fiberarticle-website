@@ -1,8 +1,9 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Build output (dist-ssr is the throwaway Node copy the prerender step uses)
 dist/
+dist-ssr/
 
 # Logs
 *.log
