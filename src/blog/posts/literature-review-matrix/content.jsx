@@ -211,6 +211,6 @@ export default {
 
   cta: {
     title: 'Get a first draft of your matrix',
-    text: 'Fiberarticle\'s Literature Reviewer fills an evidence matrix for the papers it reads, and Extract builds a table with your own columns and a supporting quote for every cell. Both export as CSV. It is free to use yourself.',
+    text: 'Fiberarticle\'s Literature Reviewer fills an evidence matrix for the papers it reads, and Extract builds a table with your own columns and a supporting quote for every cell. Both export as CSV. One payment unlocks all of it, for good.',
   },
 }

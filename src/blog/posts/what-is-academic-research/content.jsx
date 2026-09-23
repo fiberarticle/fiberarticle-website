@@ -211,6 +211,6 @@ export default {
 
   cta: {
     title: 'Start your reading from real papers',
-    text: 'Fiberarticle searches four scholarly indexes at once, reads the open-access papers and shows the source behind every line it writes. It is free to use yourself.',
+    text: 'Fiberarticle searches four scholarly indexes at once, reads the open-access papers and shows the source behind every line it writes. One payment unlocks all of it, for good.',
   },
 }

@@ -253,6 +253,6 @@ export default {
 
   cta: {
     title: 'Build a paper that holds up under review',
-    text: 'Fiberarticle helps you read the literature, tie every claim to a real source and format your references in the style your journal asks for. It is free to use yourself.',
+    text: 'Fiberarticle helps you read the literature, tie every claim to a real source and format your references in the style your journal asks for. One payment unlocks all of it, for good.',
   },
 }

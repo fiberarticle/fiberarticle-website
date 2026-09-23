@@ -253,6 +253,6 @@ export default {
 
   cta: {
     title: 'Keep every source attached',
-    text: 'Fiberarticle shows the passage behind each point it writes, and keeps the citation markers in place when you rewrite, simplify or change the tone of a section. It is free to use yourself.',
+    text: 'Fiberarticle shows the passage behind each point it writes, and keeps the citation markers in place when you rewrite, simplify or change the tone of a section. One payment unlocks all of it, for good.',
   },
 }

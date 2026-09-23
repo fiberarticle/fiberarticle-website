@@ -264,6 +264,6 @@ export default {
 
   cta: {
     title: 'Keep track of every source as you write',
-    text: 'Fiberarticle finds papers across arXiv, OpenAlex, Semantic Scholar and Crossref, shows the passage behind every point it writes, and formats references in more than 10,000 citation styles. It is free to use yourself.',
+    text: 'Fiberarticle finds papers across arXiv, OpenAlex, Semantic Scholar and Crossref, shows the passage behind every point it writes, and formats references in more than 10,000 citation styles. One payment unlocks all of it, for good.',
   },
 }

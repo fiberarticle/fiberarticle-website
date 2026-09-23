@@ -236,6 +236,6 @@ export default {
 
   cta: {
     title: 'Get a head start on your review',
-    text: 'Fiberarticle\'s Literature Reviewer finds papers across arXiv, OpenAlex, Semantic Scholar and Crossref, builds an evidence matrix you can export, and drafts a structured review with numbered citations you can check. It is free to use yourself.',
+    text: 'Fiberarticle\'s Literature Reviewer finds papers across arXiv, OpenAlex, Semantic Scholar and Crossref, builds an evidence matrix you can export, and drafts a structured review with numbered citations you can check. One payment unlocks all of it, for good.',
   },
 }

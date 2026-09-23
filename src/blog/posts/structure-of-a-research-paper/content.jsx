@@ -231,6 +231,6 @@ export default {
 
   cta: {
     title: 'Start from a structure, not a blank page',
-    text: 'Fiberarticle\'s Article Writer drafts every section of a manuscript from real papers, with journal templates and exports to Word, PDF and LaTeX. It is free to use yourself.',
+    text: 'Fiberarticle\'s Article Writer drafts every section of a manuscript from real papers, with journal templates and exports to Word, PDF and LaTeX. One payment unlocks all of it, for good.',
   },
 }

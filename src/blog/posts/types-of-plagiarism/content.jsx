@@ -217,6 +217,6 @@ export default {
 
   cta: {
     title: 'Keep every sentence tied to its source',
-    text: 'Fiberarticle reads the literature with you and shows the paper behind every line it writes, with references in APA, IEEE, Vancouver and more than 10,000 other citation styles. It is free to use yourself.',
+    text: 'Fiberarticle reads the literature with you and shows the paper behind every line it writes, with references in APA, IEEE, Vancouver and more than 10,000 other citation styles. One payment unlocks all of it, for good.',
   },
 }

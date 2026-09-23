@@ -250,6 +250,6 @@ export default {
 
   cta: {
     title: 'Start from a topic, leave with research questions',
-    text: 'Give Fiberarticle a topic and it plans three to five research questions, then searches arXiv, OpenAlex, Semantic Scholar and Crossref for related papers. It is free to use yourself.',
+    text: 'Give Fiberarticle a topic and it plans three to five research questions, then searches arXiv, OpenAlex, Semantic Scholar and Crossref for related papers. One payment unlocks all of it, for good.',
   },
 }

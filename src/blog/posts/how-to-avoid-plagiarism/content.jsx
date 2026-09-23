@@ -226,6 +226,6 @@ export default {
 
   cta: {
     title: 'Keep the source beside every note',
-    text: 'Fiberarticle finds real papers, gives a supporting quote from the paper for every cell it extracts, and formats your references in more than 10,000 citation styles. It is free to use yourself.',
+    text: 'Fiberarticle finds real papers, gives a supporting quote from the paper for every cell it extracts, and formats your references in more than 10,000 citation styles. One payment unlocks all of it, for good.',
   },
 }

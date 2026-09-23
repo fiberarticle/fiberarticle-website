@@ -232,6 +232,6 @@ export default {
 
   cta: {
     title: 'Spend your reading time on the right papers',
-    text: 'Fiberarticle finds and reads open-access papers on your topic and shows the passage behind every point it makes, so you know which papers deserve your second and third pass. It is free to use yourself.',
+    text: 'Fiberarticle finds and reads open-access papers on your topic and shows the passage behind every point it makes, so you know which papers deserve your second and third pass. One payment unlocks all of it, for good.',
   },
 }

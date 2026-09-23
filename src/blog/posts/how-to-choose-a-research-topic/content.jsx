@@ -222,6 +222,6 @@ export default {
 
   cta: {
     title: 'Check a topic before you commit to it',
-    text: 'Give Fiberarticle a topic and it searches four scholarly indexes, removes duplicates and plans research questions from what it finds, so you can judge quickly whether an idea has enough behind it. It is free to use yourself.',
+    text: 'Give Fiberarticle a topic and it searches four scholarly indexes, removes duplicates and plans research questions from what it finds, so you can judge quickly whether an idea has enough behind it. One payment unlocks all of it, for good.',
   },
 }

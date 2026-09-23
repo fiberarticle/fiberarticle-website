@@ -261,6 +261,6 @@ export default {
 
   cta: {
     title: 'Stop typing references by hand',
-    text: 'Fiberarticle finds real papers across arXiv, OpenAlex, Semantic Scholar and Crossref, ties every point to its source, and formats your references in APA, IEEE, Vancouver or more than 10,000 other styles. It is free to use yourself.',
+    text: 'Fiberarticle finds real papers across arXiv, OpenAlex, Semantic Scholar and Crossref, ties every point to its source, and formats your references in APA, IEEE, Vancouver or more than 10,000 other styles. One payment unlocks all of it, for good.',
   },
 }

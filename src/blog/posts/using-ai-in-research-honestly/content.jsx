@@ -224,6 +224,6 @@ export default {
 
   cta: {
     title: 'Research with sources you can open',
-    text: 'Fiberarticle finds real papers across four scholarly indexes and shows you the passage behind every point it writes. Use its free built-in AI, your own API key, or a model on your own machine.',
+    text: 'Fiberarticle finds real papers across four scholarly indexes and shows you the passage behind every point it writes. Use its built-in AI, your own API key, or a model on your own machine.',
   },
 }

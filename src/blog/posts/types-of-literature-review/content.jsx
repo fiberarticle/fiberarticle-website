@@ -254,6 +254,6 @@ export default {
 
   cta: {
     title: 'Start with a map of the literature',
-    text: 'Fiberarticle\'s Literature Reviewer searches four scholarly indexes, screens papers against your own criteria, and builds an evidence matrix with themes and research gaps you can export. It is free to use yourself.',
+    text: 'Fiberarticle\'s Literature Reviewer searches four scholarly indexes, screens papers against your own criteria, and builds an evidence matrix with themes and research gaps you can export. One payment unlocks all of it, for good.',
   },
 }

@@ -209,7 +209,7 @@ function PostLayout({ post, content }) {
                   <Inline
                     text={
                       content.cta?.text ||
-                      'Fiberarticle searches arXiv, OpenAlex, Semantic Scholar and Crossref for you, reads the open-access papers, and shows the source behind every line it writes. It is free to use yourself.'
+                      'Fiberarticle searches arXiv, OpenAlex, Semantic Scholar and Crossref for you, reads the open-access papers, and shows the source behind every line it writes. One payment unlocks all of it, for good.'
                     }
                   />
                 </p>

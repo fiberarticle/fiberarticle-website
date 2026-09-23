@@ -256,6 +256,6 @@ export default {
 
   cta: {
     title: 'Draft the whole paper, then tighten the abstract',
-    text: 'Fiberarticle\'s Article Writer drafts a manuscript, abstract included, from real papers, and its condense and simplify commands help you bring an abstract under the limit. It is free to use yourself.',
+    text: 'Fiberarticle\'s Article Writer drafts a manuscript, abstract included, from real papers, and its condense and simplify commands help you bring an abstract under the limit. One payment unlocks all of it, for good.',
   },
 }

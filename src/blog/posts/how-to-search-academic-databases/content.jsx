@@ -246,6 +246,6 @@ export default {
 
   cta: {
     title: 'Let the first search run while you think',
-    text: 'Fiberarticle searches four open scholarly indexes in parallel, removes duplicates, and reads the open-access papers for you. It is free to use yourself.',
+    text: 'Fiberarticle searches four open scholarly indexes in parallel, removes duplicates, and reads the open-access papers for you. One payment unlocks all of it, for good.',
   },
 }

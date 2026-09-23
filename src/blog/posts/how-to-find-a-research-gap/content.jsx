@@ -199,6 +199,6 @@ export default {
 
   cta: {
     title: 'See the gaps across many papers at once',
-    text: 'Fiberarticle\'s Literature Reviewer reads each paper for its limitations and open problems, then lists research gaps and future work across all of them, with every point tied to its source. It is free to use yourself.',
+    text: 'Fiberarticle\'s Literature Reviewer reads each paper for its limitations and open problems, then lists research gaps and future work across all of them, with every point tied to its source. One payment unlocks all of it, for good.',
   },
 }

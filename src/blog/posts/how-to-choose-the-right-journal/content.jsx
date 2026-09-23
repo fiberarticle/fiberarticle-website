@@ -251,6 +251,6 @@ export default {
 
   cta: {
     title: 'See where the strong papers in your field are published',
-    text: 'Fiberarticle searches arXiv, OpenAlex, Semantic Scholar and Crossref together, shows the Scimago quartile of each paper\'s journal, and can filter by quartile, year, open access or citation count. It is free to use yourself.',
+    text: 'Fiberarticle searches arXiv, OpenAlex, Semantic Scholar and Crossref together, shows the Scimago quartile of each paper\'s journal, and can filter by quartile, year, open access or citation count. One payment unlocks all of it, for good.',
   },
 }

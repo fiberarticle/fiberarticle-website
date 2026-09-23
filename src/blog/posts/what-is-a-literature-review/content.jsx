@@ -237,6 +237,6 @@ export default {
 
   cta: {
     title: 'Start from a map of the field',
-    text: 'Fiberarticle\'s Literature Reviewer reads the papers on your topic and drafts an evidence matrix and a structured review, with every point tied to a source you can check. It is free to use yourself.',
+    text: 'Fiberarticle\'s Literature Reviewer reads the papers on your topic and drafts an evidence matrix and a structured review, with every point tied to a source you can check. One payment unlocks all of it, for good.',
   },
 }
