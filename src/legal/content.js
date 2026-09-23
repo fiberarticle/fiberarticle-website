@@ -286,10 +286,6 @@ export const LEGAL_CONTENT = [
           },
         ],
       },
-      {
-        title: 'Who runs Fiberarticle',
-        body: ['Fiberarticle is run by Abdul Ateeb in India.'],
-      },
     ],
   },
 ]
