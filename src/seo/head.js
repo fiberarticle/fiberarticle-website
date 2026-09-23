@@ -2,6 +2,7 @@ import { classify } from '../routes.js'
 import { POSTS, POSTS_BY_SLUG, postPath } from '../blog/registry.js'
 import { TOPICS_BY_ID } from '../blog/topics.js'
 import { postText, stripInline, wordCount } from '../blog/text.js'
+import { LEGAL_META_BY_SLUG, legalPath } from '../legal/meta.js'
 
 /**
  * The <head> of every page, described as plain data. The same description is
@@ -198,6 +199,28 @@ export function postHead(slug, content) {
   }
 }
 
+function legalHead(slug) {
+  const page = LEGAL_META_BY_SLUG[slug]
+  const url = absolute(legalPath(slug))
+  return {
+    title: `${page.title} | Fiberarticle`,
+    description: page.description,
+    canonical: url,
+    og: {
+      title: `${page.title} | Fiberarticle`,
+      description: page.description,
+      type: 'website',
+      url,
+    },
+    jsonLd: [
+      breadcrumbs([
+        ['Home', '/'],
+        [page.title, legalPath(slug)],
+      ]),
+    ],
+  }
+}
+
 function missingHead() {
   return {
     title: 'Page not found | Fiberarticle',
@@ -212,6 +235,7 @@ export function headFor(pathname, content) {
   if (route.kind === 'pricing') return pricingHead()
   if (route.kind === 'blogs') return blogIndexHead()
   if (route.kind === 'post') return postHead(route.slug, content)
+  if (route.kind === 'legal') return legalHead(route.slug)
   return missingHead()
 }
 

@@ -1441,6 +1441,112 @@ html[data-surface='paper'] body {
   margin-top: 24px;
 }
 
+/* ------------------------------------------------------------ policy pages */
+
+/* Terms, privacy, refunds, delivery and contact: one napkin of plain text,
+   narrower than a blog so the lines stay easy to read. */
+.legal {
+  width: min(820px, 100%);
+  margin: 24px auto 0;
+  padding: 56px 64px 44px;
+}
+
+.legal-head {
+  padding-bottom: 22px;
+  margin-bottom: 26px;
+  border-bottom: 1.5px dashed rgba(107, 96, 88, 0.35);
+}
+
+.legal-title {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.legal-updated {
+  margin-top: 10px;
+  font-family: var(--type);
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+}
+
+.legal-body {
+  font-size: 1.05rem;
+  line-height: 1.78;
+}
+
+.legal-intro {
+  font-size: 1.12rem;
+  color: var(--ink-soft);
+}
+
+.legal-body h2 {
+  margin: 1.9em 0 0.5em;
+  font-family: var(--hand);
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.legal-body section > * + * {
+  margin-top: 0.8em;
+}
+
+.legal-list {
+  padding-left: 1.3em;
+  list-style: disc;
+}
+
+.legal-list li + li {
+  margin-top: 0.45em;
+}
+
+.legal-list li::marker {
+  color: var(--ink-faint);
+}
+
+.legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1.5px dashed rgba(107, 96, 88, 0.35);
+  font-size: 0.95rem;
+}
+
+.legal-nav a {
+  color: var(--pen-blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(53, 101, 173, 0.42);
+}
+
+.legal-nav a:hover {
+  text-decoration-color: currentColor;
+}
+
+.legal-nav [aria-current='page'] {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .legal {
+    margin-top: 12px;
+    padding: 34px 22px 30px;
+  }
+
+  .legal-body {
+    font-size: 1rem;
+  }
+}
+
 /* ------------------------------------------------------------ paper footer */
 
 .paper-footer {

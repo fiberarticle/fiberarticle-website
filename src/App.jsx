@@ -8,13 +8,16 @@ import Pricing from './components/Pricing.jsx'
 import Footer from './components/Footer.jsx'
 import PaperLoading from './blog/PaperLoading.jsx'
 import { POSTS_BY_SLUG } from './blog/registry.js'
+import { LEGAL_META } from './legal/meta.js'
 import { useModule } from './lib/lazy.js'
 import {
   BLOG_INDEX_KEY,
   BLOG_POST_KEY,
+  LEGAL_KEY,
   NOT_FOUND_KEY,
   loadBlogIndex,
   loadBlogPost,
+  loadLegal,
   loadNotFound,
   surfaceFor,
 } from './routes.js'
@@ -100,6 +103,15 @@ function BlogIndexPage() {
   return <Page />
 }
 
+/* The policy pages (terms, privacy, refunds, delivery, contact) share one
+   component, split out of the main bundle like the blog. */
+function LegalRoute({ slug }) {
+  const { mod, error } = useModule(LEGAL_KEY, loadLegal)
+  if (!mod) return <PaperLoading error={error} />
+  const Page = mod.default
+  return <Page slug={slug} />
+}
+
 function BlogPostPage() {
   const { slug } = useParams()
   const known = Boolean(POSTS_BY_SLUG[slug])
@@ -122,6 +134,9 @@ export default function App() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/blogs" element={<BlogIndexPage />} />
         <Route path="/blogs/:slug" element={<BlogPostPage />} />
+        {LEGAL_META.map((page) => (
+          <Route key={page.slug} path={`/${page.slug}`} element={<LegalRoute slug={page.slug} />} />
+        ))}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
