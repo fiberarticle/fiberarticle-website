@@ -189,10 +189,10 @@ export default function Pricing() {
                   </PlanName>
                 </Plan>
 
-                {/* Stacked on phones purely to match the paid card, whose price
-                    has to stack for width. Both blocks are then the same number
-                    of lines, so the two header panels end level with each other
-                    instead of one sitting a line lower. */}
+                {/* Stacked on phones, where the column is too narrow for the
+                    price and "one-time" side by side. The other card keeps an
+                    invisible line of the same size, so both header panels end
+                    level with each other. */}
                 <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-end sm:gap-1">
                   <MainPrice className="text-base text-white sm:text-3xl">
                     ₹19,999
@@ -265,21 +265,15 @@ export default function Pricing() {
                   </PlanName>
                 </Plan>
 
-                {/* items-center instead of the primitive's items-end. "Contact
-                    us" is a phrase, not a figure, so sitting the small text on
-                    its baseline dropped it well below the cap height and read
-                    as a separate line. Centred it sat a touch high against the
-                    x-height, so it is nudged back down 3px. Transform rather
-                    than margin, so the nudge cannot shift the row. */}
-                {/* Stacked on phones. "Contact us" plus "per article" needs
-                    more width than the narrow column has, and side by side the
-                    heading itself broke across two lines. */}
+                {/* "Contact us" stands on its own. On phones the other card's
+                    price stacks over its "one-time" line, so an invisible copy
+                    of that line keeps the two header panels the same height. */}
                 <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-center sm:gap-1">
                   <MainPrice className="text-base text-white sm:text-[1.65rem]">
                     Contact us
                   </MainPrice>
-                  <Period className="pb-0 text-[0.62rem] sm:translate-y-[3px] sm:text-sm">
-                    per article
+                  <Period aria-hidden="true" className="invisible pb-0 text-[0.62rem] sm:hidden">
+                    one-time
                   </Period>
                 </Price>
 
