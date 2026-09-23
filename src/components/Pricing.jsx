@@ -195,7 +195,7 @@ export default function Pricing() {
                     instead of one sitting a line lower. */}
                 <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-end sm:gap-1">
                   <MainPrice className="text-base text-white sm:text-3xl">
-                    $200
+                    ₹19,999
                   </MainPrice>
                   <Period className="pb-0 text-[0.62rem] sm:pb-1 sm:text-sm">
                     one-time
@@ -338,9 +338,8 @@ export default function Pricing() {
         {/* What the one-time price means, under both cards so the two header
             panels stay the same height. */}
         <p className="mt-8 max-w-xl text-center text-[0.7rem] leading-relaxed text-white/60 sm:mt-12 sm:text-sm">
-          The $200 is paid once and opens every feature for good. It is charged
-          in rupees at the day&apos;s rate, plus payment gateway charges. All
-          sales are final.
+          The ₹19,999 is paid once and opens every feature for good. Payment
+          gateway charges are added at checkout.
         </p>
 
         {/* The policies a buyer agrees to, one tap away from the price. */}

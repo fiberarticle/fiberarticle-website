@@ -27,12 +27,11 @@ export const LEGAL_CONTENT = [
       {
         title: 'Full access and payment',
         body: [
-          'Every feature of the app is locked until an account buys full access. Full access is a **one-time payment of US$200**. There is no subscription and nothing to renew.',
+          'Every feature of the app is locked until an account buys full access. Full access is a **one-time payment of ₹19,999**. There is no subscription and nothing to renew.',
           {
             list: [
-              'The price is set in US dollars and charged in Indian rupees at the day\'s exchange rate. The rupee amount is shown before you pay.',
               'Payment gateway charges (Razorpay\'s fee plus GST on that fee) are added on top and shown as their own line before you pay. The amount at checkout is the full amount you pay.',
-              'Payments are handled by Razorpay. You can pay by UPI, card, netbanking or wallet.',
+              'Payments are handled by Razorpay, in Indian rupees, from Indian payment methods: UPI, Indian debit and credit cards, netbanking and wallets.',
               'Access starts as soon as the payment is confirmed and stays on the account that paid for as long as Fiberarticle runs.',
               'Access belongs to that one account. It cannot be transferred, shared or resold.',
               'We may change the price for future purchases. A change never affects access you have already bought.',
