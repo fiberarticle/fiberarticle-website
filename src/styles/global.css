@@ -1990,16 +1990,8 @@ h3 {
   max-width: 320px;
 }
 
-.footer-legal {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 32px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
+/* The wordmark closes the page, so it gets the same clear space below it as
+   the footer gives it above (the 72px top padding). */
 .footer-giant {
   position: relative;
   z-index: 1;
@@ -2007,7 +1999,7 @@ h3 {
   justify-content: center;
   pointer-events: none;
   user-select: none;
-  padding-bottom: 48px;
+  padding-bottom: 72px;
 }
 
 .footer-giant-stack {
@@ -2187,12 +2179,7 @@ h3 {
   }
 
   .footer-giant {
-    padding-bottom: 12px;
-  }
-
-  .footer-legal {
     padding-bottom: 24px;
-    font-size: 12px;
   }
 
   .tile-row {
@@ -2205,37 +2192,13 @@ h3 {
   }
 }
 
-/* The footer carries its own copy of the glyph field. Same fade at the top as
-   the section version, but the bottom is cut much higher: the copyright line is
-   anchored to the bottom of the footer, and printing digits behind 13px text
-   made it hard to read. Measured from the bottom rather than as a percentage so
-   the clear strip stays put whatever height the wordmark gives the footer. */
+/* The footer carries its own copy of the glyph field. It only softens the very
+   top edge, so the field arrives out of the section above without a hard line,
+   and runs on to the bottom of the page: there is no text down there for it
+   to print behind. */
 .glyph-rain-footer {
-  /* Two layers, intersected. The linear one only softens the very top edge so
-     the field arrives out of the section above without a hard line. The radial
-     one punches a single soft hole centred on the copyright text.
-
-     A full-width horizontal fade was the obvious first move and it was wrong:
-     it emptied the whole bottom band, so the corners either side of the
-     copyright went bare. The hole is sized to the text, not to the footer. */
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0, #000 26px),
-    radial-gradient(
-      ellipse 340px 80px at 50% calc(100% - 42px),
-      transparent 0 42%,
-      #000 100%
-    );
-  mask-image:
-    linear-gradient(to bottom, transparent 0, #000 26px),
-    radial-gradient(
-      ellipse 340px 80px at 50% calc(100% - 42px),
-      transparent 0 42%,
-      #000 100%
-    );
-  /* Without this the two layers are added, not intersected, and the hole is
-     filled straight back in by the linear layer. */
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 26px);
 }
 
 /* ------------------------------------------------------------

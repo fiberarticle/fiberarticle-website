@@ -1559,13 +1559,6 @@ html[data-surface='paper'] body {
   padding-bottom: 20px;
 }
 
-.paper-footer-legal {
-  text-align: center;
-  font-family: var(--type);
-  font-size: 0.8rem;
-  color: var(--ink-faint);
-}
-
 /* ------------------------------------------------------------ responsive */
 
 @media (max-width: 1180px) {
