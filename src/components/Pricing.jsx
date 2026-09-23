@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@radix-ui/themes'
+import { Link } from 'react-router-dom'
 import { CircleCheck, CircleX, FileText, Mail, Package } from 'lucide-react'
 
 import {
@@ -25,7 +26,8 @@ import {
  *
  * Both calls to action are Radix Themes buttons so they match the Sign up
  * button in the navbar rather than inventing a second button style: silver
- * (gray + highContrast) for the free plan, the brown accent for the paid one.
+ * (gray + highContrast) for the use-it-yourself plan, the brown accent for the
+ * one where we do the work.
  *
  * The two cards are given identical weight on purpose. Ringing the paid one in
  * a coloured outer glow to mark it as the upsell read as decoration for its own
@@ -37,8 +39,10 @@ import {
  * sm has to come down hard, which is what the paired classes throughout are
  * doing - roughly 145px of text column per card on a 390px screen.
  *
- * There is no gating anywhere in the product and there is no checkout. The paid
- * column is work we do by hand, so its call to action is an email.
+ * The first card is the product itself. Every feature in the app is locked
+ * until an account pays once; the payment happens inside the app (Razorpay),
+ * so this card only sends people to sign up. The second card is work we do by
+ * hand, so its call to action is an email.
  */
 
 const CONTACT_EMAIL = 'admin@fiberarticle.com'
@@ -62,7 +66,7 @@ const GMAIL_HREF =
 
 /* Written as plainly as possible. The earlier list used the product's own
    vocabulary, which only makes sense to someone who already knows the tool. */
-const FREE_INCLUDED = [
+const SELF_INCLUDED = [
   'Run as many researches as you want',
   'Searches 200 million+ papers on arXiv, OpenAlex, Semantic Scholar and Crossref',
   'Shows you the source paper behind every line it writes',
@@ -71,17 +75,17 @@ const FREE_INCLUDED = [
   'Use your own API key, or run a model on your machine',
 ]
 
-/* Deliberately the same four jobs the paid card promises, so the two lists read
-   against each other and the difference is concrete rather than vague. */
-const FREE_EXCLUDED = [
+/* Deliberately the same four jobs the other card promises, so the two lists
+   read against each other and the difference is concrete rather than vague. */
+const SELF_EXCLUDED = [
   'Dataset collection and preprocessing',
   'Programming and scripts',
   'Implementations and evaluations',
   'Figure and table generation',
 ]
 
-/* Deliberately all in "we", so the difference from the free plan is obvious at
-   a glance: there, you drive the tool; here, we do the work. */
+/* Deliberately all in "we", so the difference from the first plan is obvious
+   at a glance: there, you drive the tool; here, we do the work. */
 const SERVICE_INCLUDED = [
   'We read the literature and write the review',
   'We write the code and run the experiments',
@@ -93,6 +97,16 @@ const SERVICE_INCLUDED = [
   'You get every final file, ready to submit',
 ]
 
+/* Every policy page, linked under the cards. All sales are final, so the
+   terms and the refund policy sit right next to the price. */
+const LEGAL_LINKS = [
+  ['/terms/', 'Terms'],
+  ['/privacy/', 'Privacy'],
+  ['/refund-policy/', 'Refunds'],
+  ['/shipping-policy/', 'Delivery'],
+  ['/contact/', 'Contact'],
+]
+
 /* The plan name is the page's heading now, so it is sized and coloured to lead
    the card rather than label it. */
 const PLAN_HEADING =
@@ -100,8 +114,8 @@ const PLAN_HEADING =
 
 /* No badge in the row any more, so it is just the heading with its spacing.
 
-   min-h reserves three lines on phones. The paid heading wraps to three at that
-   width and the free one to two, which left the two header panels ending at
+   min-h reserves three lines on phones. The second heading wraps to three at
+   that width and the first one to two, which left the two header panels ending at
    different heights - visible as a step between the cards. Reserving the taller
    of the two makes both panels finish level. Dropped from sm up, where both
    headings sit on one line anyway. */
@@ -171,7 +185,7 @@ export default function Pricing() {
                 <Plan className={PLAN_ROW}>
                   <PlanName className={PLAN_HEADING}>
                     <Package className={PLAN_ICON} />
-                    Use it yourself, free forever
+                    Use it yourself, pay once
                   </PlanName>
                 </Plan>
 
@@ -181,10 +195,10 @@ export default function Pricing() {
                     instead of one sitting a line lower. */}
                 <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-end sm:gap-1">
                   <MainPrice className="text-base text-white sm:text-3xl">
-                    ₹0
+                    $200
                   </MainPrice>
                   <Period className="pb-0 text-[0.62rem] sm:pb-1 sm:text-sm">
-                    forever
+                    one-time
                   </Period>
                 </Price>
 
@@ -211,11 +225,12 @@ export default function Pricing() {
                     </svg>
                   </a>
                 </Button>
+
               </Header>
 
               <Body className={BODY}>
                 <List className={LIST}>
-                  {FREE_INCLUDED.map((item) => (
+                  {SELF_INCLUDED.map((item) => (
                     <ListItem key={item} className={ITEM}>
                       <CircleCheck className={`${TICK} text-[#50c158]`} />
                       {item}
@@ -226,7 +241,7 @@ export default function Pricing() {
                 <Separator className={SEPARATOR}>Not included</Separator>
 
                 <List className={LIST}>
-                  {FREE_EXCLUDED.map((item) => (
+                  {SELF_EXCLUDED.map((item) => (
                     <ListItem
                       key={item}
                       className={`${ITEM} text-muted-foreground/70`}
@@ -246,7 +261,7 @@ export default function Pricing() {
                 <Plan className={PLAN_ROW}>
                   <PlanName className={PLAN_HEADING}>
                     <FileText className={PLAN_ICON} />
-                    Pay only if you want us to do it for you
+                    If you want us to do it for you
                   </PlanName>
                 </Plan>
 
@@ -319,6 +334,26 @@ export default function Pricing() {
             </Card>
           </motion.div>
         </div>
+
+        {/* What the one-time price means, under both cards so the two header
+            panels stay the same height. */}
+        <p className="mt-8 max-w-xl text-center text-[0.7rem] leading-relaxed text-white/60 sm:mt-12 sm:text-sm">
+          The $200 is paid once and opens every feature for good. It is charged
+          in rupees at the day&apos;s rate, plus payment gateway charges. All
+          sales are final.
+        </p>
+
+        {/* The policies a buyer agrees to, one tap away from the price. */}
+        <nav
+          aria-label="Policies"
+          className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[0.7rem] text-white/50 sm:mt-5 sm:gap-x-6 sm:text-xs"
+        >
+          {LEGAL_LINKS.map(([to, label]) => (
+            <Link key={to} to={to} className="underline-offset-4 transition-colors hover:text-white/85 hover:underline">
+              {label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </section>
   )

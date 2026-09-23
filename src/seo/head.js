@@ -70,12 +70,12 @@ function pricingHead() {
   return {
     title: 'Pricing | Fiberarticle',
     description:
-      'Use Fiberarticle free forever to research, review the literature and write articles yourself, or pay per article and have us do the research and writing for you.',
+      'Unlock Fiberarticle with one payment of $200 to research, review the literature and write articles yourself, or pay per article and have us do the research and writing for you.',
     canonical: url,
     og: {
       title: 'Pricing | Fiberarticle',
       description:
-        'Free forever when you drive it yourself. Pay per article only if you want us to do the work for you.',
+        'One payment of $200 when you drive it yourself. Pay per article if you want us to do the work for you.',
       type: 'website',
       url,
     },
