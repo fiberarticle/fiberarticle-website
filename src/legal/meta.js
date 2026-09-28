@@ -19,7 +19,7 @@ export const LEGAL_META = [
     title: 'Privacy Policy',
     description:
       'What Fiberarticle collects, why, who helps us run the service, how long we keep it, and how you can download or delete everything.',
-    updated: '2026-09-24',
+    updated: '2026-09-28',
   },
   {
     slug: 'refund-policy',
