@@ -113,9 +113,9 @@ export const LEGAL_CONTENT = [
         body: [
           {
             list: [
-              '**Your account:** your name and email address, and your password stored only as a secure hash. If you sign in with Google, we receive your name, email address and profile picture from Google.',
+              '**Your account:** your name and email address, and your password stored only as a secure hash. If you sign in with Google, we receive your name, email address and profile picture from Google. If you sign in with Microsoft, we receive your name and email address from Microsoft.',
               '**Your work:** the topics and questions you give Fiberarticle, the files you upload, and the reports, articles, chats and tables it makes for you, along with your settings.',
-              '**Your payment record:** the amount, the currency, the date, the payment method type (for example UPI or card) and the order and payment IDs from Razorpay. We never receive or store your card number, UPI PIN or bank login. Those go only to Razorpay.',
+              '**Your payment record:** the amount, the currency, the date, the payment method type (for example UPI or card) and the order and payment IDs from Razorpay. We never receive or store your card number, UPI PIN or bank login. Those go only to Razorpay. If you buy through Microsoft Marketplace, Microsoft takes the payment and sends us the subscription details: the plan, the term and its status, and the email address and Microsoft Entra tenant ID of the buyer and of the person the subscription is for.',
               '**Sign-in and security data:** a sign-in cookie, and the IP address and browser of each session, so you can stay signed in and we can spot misuse. Our servers also keep short technical logs.',
             ],
           },
@@ -144,6 +144,7 @@ export const LEGAL_CONTENT = [
               'Razorpay, which processes payments.',
               'Resend, which sends account and payment emails.',
               'Google, if you choose to sign in with Google.',
+              'Microsoft, if you choose to sign in with Microsoft or buy through Microsoft Marketplace.',
               'The AI model provider that answers your requests.',
               'Scholarly indexes such as arXiv, OpenAlex, Semantic Scholar and Crossref, which receive the search queries made for your research.',
             ],
