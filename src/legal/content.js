@@ -124,13 +124,14 @@ export const LEGAL_CONTENT = [
       {
         title: 'How we use it',
         body: [
-          'To run the service for you, to keep your account secure, to send you account and payment emails (for example a verification code or a payment receipt), and to answer you when you write to us. We do not use your work to train AI models, and we do not send marketing emails without asking.',
+          'To run the service for you, to keep your account secure, to send you account and payment emails (for example a verification code or a payment receipt), and to answer you when you write to us. Fiberarticle itself does not use your work to train AI models, and we do not send marketing emails without asking.',
         ],
       },
       {
         title: 'How the AI sees your work',
         body: [
           'To answer a question or write a draft, Fiberarticle sends your text and the relevant parts of papers to an AI model. That model is the one you choose in Settings: Fiberarticle AI (run through our AI provider), a provider you connect with your own key, or a model running on your own machine. If you add your own key, we store it encrypted and use it only for your requests.',
+          'Fiberarticle AI uses free models from our AI provider. For some of these models, the company that makes the model may use the requests sent to it to improve that model while it is offered free. If you do not want that, choose a provider you connect with your own key, or a model running on your own machine, in Settings. Those follow the terms of the provider you choose.',
         ],
       },
       {
