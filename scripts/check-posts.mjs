@@ -100,13 +100,13 @@ function html(element) {
   return renderToStaticMarkup(React.createElement(StaticRouter, { location: '/' }, element))
 }
 
-/* The posts carry 2025 publication dates, so none may speak of a later year. */
-const FUTURE_YEAR = /\b20(2[6-9]|[3-9]\d)\b/
+/* A post may not speak of a year later than its own publication date. */
+const YEAR = /\b20\d{2}\b/g
 
-function textIssues(where, value, problems) {
+function textIssues(where, value, problems, postYear = 2025) {
   const text = String(value)
-  const year = text.match(FUTURE_YEAR)
-  if (year) problems.push(`${where}: mentions ${year[0]}, after the post's own date`)
+  const later = (text.match(YEAR) || []).find((y) => Number(y) > postYear)
+  if (later) problems.push(`${where}: mentions ${later}, after the post's own date`)
   if (text.includes(EM_DASH)) problems.push(`${where}: contains an em dash`)
   if (text.includes(EN_DASH)) problems.push(`${where}: contains an en dash`)
   if (/\s-\s/.test(stripInline(text))) problems.push(`${where}: " - " reads as a dash; use a comma, colon or full stop`)
@@ -191,7 +191,8 @@ for (const slug of slugs) {
     if (!PLANNED.includes(related)) problems.push(`related post "${related}" is not planned`)
     if (related === slug) problems.push('a post cannot be related to itself')
   }
-  for (const [where, value] of strings(meta, 'meta')) textIssues(where, value, problems)
+  const postYear = /^\d{4}-/.test(meta.date || '') ? Number(meta.date.slice(0, 4)) : 2025
+  for (const [where, value] of strings(meta, 'meta')) textIssues(where, value, problems, postYear)
 
   /* ---- content shape */
   if (typeof content?.hero?.Art !== 'function') problems.push('hero.Art must be a component')
@@ -215,7 +216,7 @@ for (const slug of slugs) {
   }
 
   for (const [where, value] of strings(content, 'content')) {
-    textIssues(where, value, problems)
+    textIssues(where, value, problems, postYear)
     linkIssues(where, value, problems)
   }
 
@@ -229,7 +230,7 @@ for (const slug of slugs) {
       if (!markup.includes('<svg')) problems.push(`drawing "${name}" rendered no svg`)
       if (!/aria-label="[^"]{12,}"/.test(markup)) problems.push(`drawing "${name}" needs a descriptive label`)
       css.push(markup)
-      textIssues(`drawing "${name}"`, markup.replace(/<style[\s\S]*?<\/style>/g, ''), problems)
+      textIssues(`drawing "${name}"`, markup.replace(/<style[\s\S]*?<\/style>/g, ''), problems, postYear)
     } catch (error) {
       problems.push(`drawing "${name}" failed to render: ${error.message}`)
     }
