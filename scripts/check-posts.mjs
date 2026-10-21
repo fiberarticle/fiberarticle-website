@@ -59,6 +59,7 @@ export const PLANNED = [
   'how-to-write-an-annotated-bibliography',
   'how-to-write-a-hypothesis',
   'what-is-impact-factor',
+  'ethical-considerations-in-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
