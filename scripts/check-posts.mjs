@@ -54,6 +54,7 @@ export const PLANNED = [
   'peer-review-explained',
   'how-to-write-a-cover-letter-for-journal-submission',
   'how-to-write-a-research-proposal',
+  'how-to-write-a-research-methodology',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
