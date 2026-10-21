@@ -60,6 +60,7 @@ export const PLANNED = [
   'how-to-write-a-hypothesis',
   'what-is-impact-factor',
   'ethical-considerations-in-research',
+  'how-to-create-orcid-id',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
