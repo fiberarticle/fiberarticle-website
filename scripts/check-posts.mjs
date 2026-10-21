@@ -57,6 +57,7 @@ export const PLANNED = [
   'how-to-write-a-research-methodology',
   'ugc-care-list',
   'how-to-write-an-annotated-bibliography',
+  'how-to-write-a-hypothesis',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
