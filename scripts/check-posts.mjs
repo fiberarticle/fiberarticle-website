@@ -62,6 +62,7 @@ export const PLANNED = [
   'ethical-considerations-in-research',
   'how-to-create-orcid-id',
   'how-to-write-discussion-in-research-paper',
+  'how-to-write-acknowledgement-for-thesis',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
