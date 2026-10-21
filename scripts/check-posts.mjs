@@ -55,6 +55,7 @@ export const PLANNED = [
   'how-to-write-a-cover-letter-for-journal-submission',
   'how-to-write-a-research-proposal',
   'how-to-write-a-research-methodology',
+  'ugc-care-list',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
