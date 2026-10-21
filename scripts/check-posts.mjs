@@ -58,6 +58,7 @@ export const PLANNED = [
   'ugc-care-list',
   'how-to-write-an-annotated-bibliography',
   'how-to-write-a-hypothesis',
+  'what-is-impact-factor',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
