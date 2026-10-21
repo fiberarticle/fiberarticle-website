@@ -65,6 +65,7 @@ export const PLANNED = [
   'how-to-write-acknowledgement-for-thesis',
   'how-to-write-an-introduction-for-a-research-paper',
   'sampling-methods-in-research',
+  'how-to-write-a-review-paper',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
