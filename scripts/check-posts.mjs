@@ -63,6 +63,7 @@ export const PLANNED = [
   'how-to-create-orcid-id',
   'how-to-write-discussion-in-research-paper',
   'how-to-write-acknowledgement-for-thesis',
+  'how-to-write-an-introduction-for-a-research-paper',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
