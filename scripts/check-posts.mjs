@@ -61,6 +61,7 @@ export const PLANNED = [
   'what-is-impact-factor',
   'ethical-considerations-in-research',
   'how-to-create-orcid-id',
+  'how-to-write-discussion-in-research-paper',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
