@@ -91,6 +91,7 @@ export const PLANNED = [
   'types-of-variables-in-research',
   'informed-consent-form-for-research',
   'research-misconduct',
+  'how-to-write-research-objectives',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
