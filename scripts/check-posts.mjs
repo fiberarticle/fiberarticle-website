@@ -75,6 +75,7 @@ export const PLANNED = [
   'how-to-check-scopus-indexed-journal',
   'what-is-h-index',
   'how-to-do-a-systematic-review',
+  'first-author-vs-corresponding-author',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
