@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@radix-ui/themes'
 import { Link } from 'react-router-dom'
-import { CircleCheck, CircleX, FileText, Mail, Package } from 'lucide-react'
+import { CircleCheck, CircleX, Mail } from 'lucide-react'
 
 import {
   Body,
@@ -67,12 +67,13 @@ const GMAIL_HREF =
 /* Written as plainly as possible. The earlier list used the product's own
    vocabulary, which only makes sense to someone who already knows the tool. */
 const SELF_INCLUDED = [
-  'Run as many researches as you want',
-  'Searches 200 million+ papers on arXiv, OpenAlex, Semantic Scholar and Crossref',
-  'Shows you the source paper behind every line it writes',
-  'Writes literature reviews and complete articles',
-  'Formats to your journal template and exports',
-  'Use your own API key, or run a model on your machine',
+  'Conduct literature reviews using 200 million+ research papers from arXiv, OpenAlex, Semantic Scholar, and Crossref.',
+  'Identify relevant research papers and explore existing work in your field.',
+  'Generate literature reviews and complete research articles.',
+  'Get source citations for every line generated, so you can verify the references.',
+  'Format your manuscript according to your target journal’s template and export it.',
+  'Use your own API key or run a model locally on your machine.',
+  'Run as many research projects as you need with a one-time payment.',
 ]
 
 /* Deliberately the same four jobs the other card promises, so the two lists
@@ -87,14 +88,13 @@ const SELF_EXCLUDED = [
 /* Deliberately all in "we", so the difference from the first plan is obvious
    at a glance: there, you drive the tool; here, we do the work. */
 const SERVICE_INCLUDED = [
-  'We read the literature and write the review',
-  'We write the code and run the experiments',
-  'We collect and prepare the dataset',
-  'We evaluate it and report the results',
-  'We produce the figures and tables',
-  'We write the full manuscript',
-  'We format it for the journal you are targeting',
-  'You get every final file, ready to submit',
+  'Our team reviews the existing literature and identifies the research problem.',
+  'We collect, clean, and prepare the datasets.',
+  'We write the code and scripts, run experiments, and evaluate the results.',
+  'We create the figures, tables, and illustrations.',
+  'We prepare the complete research manuscript.',
+  'We format the manuscript according to your target journal’s guidelines.',
+  'We deliver all final files, ready for submission.',
 ]
 
 /* Every policy page, linked under the cards. All sales are final, so the
@@ -134,7 +134,6 @@ const BODY = 'flex flex-1 flex-col gap-4 p-3 pt-3 sm:gap-7 sm:p-6 sm:pt-4'
 const LIST = 'flex flex-col gap-2.5 sm:gap-3.5'
 const ITEM = 'gap-2 text-[0.68rem] leading-snug sm:gap-3 sm:text-sm'
 const TICK = 'mt-0.5 size-3 shrink-0 sm:size-4'
-const PLAN_ICON = 'mt-0.5 size-3 shrink-0 text-[#c2842b] sm:size-4'
 const SEPARATOR = 'gap-2 text-[0.6rem] sm:gap-3 sm:text-sm'
 
 /* Radix Themes props take responsive objects, so the buttons shrink with
@@ -184,7 +183,6 @@ export default function Pricing() {
               <Header className={HEADER}>
                 <Plan className={PLAN_ROW}>
                   <PlanName className={PLAN_HEADING}>
-                    <Package className={PLAN_ICON} />
                     Use it yourself, pay once
                   </PlanName>
                 </Plan>
@@ -260,7 +258,6 @@ export default function Pricing() {
               <Header className={HEADER}>
                 <Plan className={PLAN_ROW}>
                   <PlanName className={PLAN_HEADING}>
-                    <FileText className={PLAN_ICON} />
                     If you want us to do it for you
                   </PlanName>
                 </Plan>
