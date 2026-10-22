@@ -87,6 +87,7 @@ export const PLANNED = [
   'what-is-doi-in-research-paper',
   'validity-and-reliability-in-research',
   'how-to-create-google-scholar-profile',
+  'how-to-present-a-research-paper',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
