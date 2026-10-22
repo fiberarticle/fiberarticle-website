@@ -85,6 +85,7 @@ export const PLANNED = [
   'how-to-write-limitations-of-the-study',
   'how-to-cite-chatgpt',
   'what-is-doi-in-research-paper',
+  'validity-and-reliability-in-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
