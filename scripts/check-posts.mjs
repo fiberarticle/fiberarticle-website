@@ -89,6 +89,7 @@ export const PLANNED = [
   'how-to-create-google-scholar-profile',
   'how-to-present-a-research-paper',
   'types-of-variables-in-research',
+  'informed-consent-form-for-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
