@@ -88,6 +88,7 @@ export const PLANNED = [
   'validity-and-reliability-in-research',
   'how-to-create-google-scholar-profile',
   'how-to-present-a-research-paper',
+  'types-of-variables-in-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
