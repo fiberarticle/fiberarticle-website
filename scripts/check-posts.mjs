@@ -79,6 +79,7 @@ export const PLANNED = [
   'how-to-write-results-section-of-a-research-paper',
   'conceptual-framework-in-research',
   'phd-viva-questions',
+  'how-to-download-research-papers-for-free',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
