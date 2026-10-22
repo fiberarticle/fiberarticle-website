@@ -77,6 +77,7 @@ export const PLANNED = [
   'how-to-do-a-systematic-review',
   'first-author-vs-corresponding-author',
   'how-to-write-results-section-of-a-research-paper',
+  'conceptual-framework-in-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
