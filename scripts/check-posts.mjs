@@ -70,6 +70,7 @@ export const PLANNED = [
   'how-to-write-a-conclusion-for-a-research-paper',
   'how-to-publish-a-research-paper',
   'how-to-use-zotero',
+  'qualitative-vs-quantitative-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
