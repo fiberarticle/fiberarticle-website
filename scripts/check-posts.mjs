@@ -81,6 +81,7 @@ export const PLANNED = [
   'phd-viva-questions',
   'how-to-download-research-papers-for-free',
   'how-to-write-a-title-for-a-research-paper',
+  'what-is-research-design',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
