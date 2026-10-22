@@ -78,6 +78,7 @@ export const PLANNED = [
   'first-author-vs-corresponding-author',
   'how-to-write-results-section-of-a-research-paper',
   'conceptual-framework-in-research',
+  'phd-viva-questions',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
