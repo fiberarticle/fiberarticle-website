@@ -72,6 +72,7 @@ export const PLANNED = [
   'how-to-use-zotero',
   'qualitative-vs-quantitative-research',
   'what-is-retraction-in-research',
+  'how-to-check-scopus-indexed-journal',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
