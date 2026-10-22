@@ -74,6 +74,7 @@ export const PLANNED = [
   'what-is-retraction-in-research',
   'how-to-check-scopus-indexed-journal',
   'what-is-h-index',
+  'how-to-do-a-systematic-review',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
