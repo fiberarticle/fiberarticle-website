@@ -96,6 +96,7 @@ export const PLANNED = [
   'theoretical-framework-in-research',
   'how-to-summarize-a-research-paper',
   'what-is-self-plagiarism',
+  'how-to-write-a-conference-paper',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
