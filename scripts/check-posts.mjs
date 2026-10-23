@@ -97,6 +97,7 @@ export const PLANNED = [
   'how-to-summarize-a-research-paper',
   'what-is-self-plagiarism',
   'how-to-write-a-conference-paper',
+  'conflict-of-interest-in-research',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
