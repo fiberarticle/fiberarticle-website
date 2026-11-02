@@ -49,16 +49,15 @@ function breadcrumbs(items) {
 }
 
 function homeHead() {
-  // Kept exactly as the site has always shipped it.
   return {
     title: 'Fiberarticle',
     description:
-      'Fiberarticle is an open source agentic AI for academic research. It finds papers across arXiv, OpenAlex, Semantic Scholar and Crossref, reads open-access PDFs, tracks every reference, and writes publication-ready articles.',
+      'An Agentic AI that researches, performs literature reviews, and writes publication-ready manuscripts.',
     canonical: ORIGIN,
     og: {
-      title: 'Fiberarticle | Open Source Agentic AI Researcher',
+      title: 'Fiberarticle',
       description:
-        'An agentic AI that discovers academic sources, reads and synthesizes the literature, tracks references, and writes publication-ready articles. Open source and self-hostable.',
+        'An Agentic AI that researches, performs literature reviews, and writes publication-ready manuscripts.',
       type: 'website',
       url: ORIGIN,
     },
