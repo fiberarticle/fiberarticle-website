@@ -99,6 +99,7 @@ export const PLANNED = [
   'how-to-write-a-conference-paper',
   'conflict-of-interest-in-research',
   'meta-analysis-in-research',
+  'how-to-write-a-problem-statement',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
