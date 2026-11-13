@@ -101,6 +101,7 @@ export const PLANNED = [
   'meta-analysis-in-research',
   'how-to-write-a-problem-statement',
   'how-to-respond-to-reviewer-comments',
+  'what-is-a-scoping-review',
 ]
 
 const TOPICS = ['research-basics', 'literature-reviews', 'plagiarism-and-integrity', 'writing', 'publishing']
