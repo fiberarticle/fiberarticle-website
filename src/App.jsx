@@ -2,8 +2,11 @@ import { useEffect } from 'react'
 import { Route, Routes, useLocation, useParams } from 'react-router-dom'
 
 import Navbar from './components/Navbar.jsx'
-import Hero from './components/Hero.jsx'
-import HowItWorks from './components/HowItWorks.jsx'
+import HomeHero from './components/home/HomeHero.jsx'
+import HomeTrusted from './components/home/HomeTrusted.jsx'
+import HomeFeatures from './components/home/HomeFeatures.jsx'
+import HomeAgents from './components/home/HomeAgents.jsx'
+import HomeClosing from './components/home/HomeClosing.jsx'
 import Pricing from './components/Pricing.jsx'
 import Footer from './components/Footer.jsx'
 import PaperLoading from './blog/PaperLoading.jsx'
@@ -64,9 +67,12 @@ function HomePage() {
 
   return (
     <>
-      <main>
-        <Hero />
-        <HowItWorks />
+      <main className="home-main">
+        <HomeHero />
+        <HomeTrusted />
+        <HomeFeatures />
+        <HomeAgents />
+        <HomeClosing />
       </main>
       <Footer />
     </>
