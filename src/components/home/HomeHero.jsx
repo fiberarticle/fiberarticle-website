@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
+import { Button } from '@radix-ui/themes'
 
 const APP_URL = 'https://app.fiberarticle.com'
 
@@ -74,17 +75,21 @@ export default function HomeHero() {
       <div className="container home-hero-copy">
         <h1 className="home-hero-title">Agentic AI Research Platform</h1>
         <p className="home-hero-lede">
-          Fiberarticle searches 200 million+ papers, reads the open-access PDFs,
-          and writes your article with every claim tied to its source.
+          AI Agents that research, perform literature reviews, and write
+          publication-ready manuscripts.
         </p>
         <div className="home-hero-actions">
-          <a className="home-btn home-btn-brown" href={APP_URL}>
-            Get Fiberarticle
-            <Chevrons />
-          </a>
-          <Link className="home-btn home-btn-silver" to="/pricing/">
-            See pricing
-          </Link>
+          {/* The same green Radix "classic" button as Get started at the
+              bottom of the page. */}
+          <Button asChild variant="classic" color="green" size="3" radius="large">
+            <a href={APP_URL}>
+              Get Fiberarticle
+              <Chevrons />
+            </a>
+          </Button>
+          <Button asChild variant="classic" color="sky" size="3" radius="large" className="home-hero-pricing">
+            <Link to="/pricing/">See pricing</Link>
+          </Button>
         </div>
       </div>
 
