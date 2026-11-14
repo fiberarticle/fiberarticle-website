@@ -4,13 +4,12 @@
    Preflight is deliberately NOT imported. This site already ships a
    hand-written reset and Radix Themes styles; loading Tailwind's base layer on
    top of them would restyle the existing hero, cards and footer. Importing
-   only theme + utilities keeps Tailwind additive, so the shadcn pricing card
-   primitives in src/components/ui work exactly as written without touching a
-   single existing rule.
+   only theme + utilities keeps Tailwind additive, so utility classes work
+   exactly as written without touching a single existing rule.
 
-   Because preflight is skipped, the few base rules those primitives rely on
-   (default border colour, list reset) are re-declared scoped to .fa-pricing at
-   the bottom of this block instead of globally.
+   Because preflight is skipped, the few base rules the pricing page relies on
+   (list reset, block icons) are re-declared scoped to .fa-pricing at the
+   bottom of this block instead of globally.
    ============================================================ */
 
 @layer theme, base;
@@ -25,33 +24,10 @@
    order where both apply. */
 @import 'tailwindcss/utilities.css';
 
-/* Class-based dark mode, the shadcn v4 pattern. <html class="dark"> is set in
-   index.html: the site has no light theme, and the pricing card's dark:
-   variants are the ones we want. */
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  /* shadcn tokens, dark values, pulled toward the Fiberarticle palette so the
-     cards sit in the same world as the rest of the page. */
-  --color-background: #050406;
-  --color-foreground: #f5f2ec;
-  --color-card: #0b0a0d;
-  --color-card-foreground: #f5f2ec;
-  --color-muted: #1a181d;
-  --color-muted-foreground: #a49d95;
-  --color-border: #3b3640;
-}
-
 /* Preflight substitutes, scoped so they cannot leak into the rest of the site,
-   and kept in @layer base so they sit below the unlayered utilities - a card
-   that asks for border-foreground/20 must still win over this default. */
+   and kept in @layer base so they sit below the unlayered utilities and every
+   class rule in this file. */
 @layer base {
-  .fa-pricing *,
-  .fa-pricing ::before,
-  .fa-pricing ::after {
-    border-color: var(--color-border);
-  }
-
   .fa-pricing ul {
     list-style: none;
   }
@@ -2212,9 +2188,8 @@ h3 {
    <img> exactly the way the reference component does it. The hand-drawn CSS
    arc that stood in for it has been removed rather than left behind dead.
 
-   The cards themselves are the shadcn primitives in
-   src/components/ui/pricing-card.tsx, styled only through Tailwind classes in
-   Pricing.jsx, so nothing in this file targets them.
+   The cards themselves are styled under "Pricing cards" at the end of this
+   file.
    ------------------------------------------------------------ */
 
 /* The page links sit in the middle of the glass pill. The one for the page
@@ -2323,5 +2298,728 @@ h3 {
 @media (max-width: 359px) {
   .navbar .nav-cta svg {
     display: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   Pricing cards
+
+   Each plan is a lit head (title, price, call to action) over a dark panel
+   whose rim glows in the plan's colour, with a flame of the same colour
+   burning above it. Brown is the plan you use yourself, green the one we do
+   for you, both from the logo; data-tone on .fa-plan picks the set.
+
+   The panel glow, the flame and the layout follow the reference design value
+   for value; the colours are ours. The head's lit surface was a picture
+   there; here it is CSS layers. Their light shape (rays, glow, soft edges)
+   was fitted to that picture, then the colours were moved onto the brand
+   brown and green, kept dark enough that white text on them reads clearly.
+   It stays sharp at any size and costs no image download.
+   ------------------------------------------------------------ */
+
+.fa-plans {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 22rem));
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  /* The flames burn above the cards and need the room. */
+  margin-top: 2rem;
+}
+
+.fa-plan-slot {
+  display: flex;
+  min-width: 0;
+}
+
+.fa-plan {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding: 0.5rem;
+  border-radius: 2rem;
+  color: #fff;
+}
+
+/* Tones. --fa-accent is the flame, the icons and the ticks, --fa-accent-text
+   the lit words, the --fa-panel-* set the glowing panel. The --fa-art-* set
+   below them paints the lit head. Both tones are the logo's own colours: the
+   brown card burns amber, the light at the top of the logo's brown. */
+.fa-plan[data-tone='brown'] {
+  --fa-accent: #fca91e;
+  --fa-accent-text: linear-gradient(180deg, #ffd98a 0%, #fca91e 100%);
+  --fa-panel-burn: linear-gradient(180deg, #000 0%, #000 12.5%, #110a01 25%, #271602 37.5%, #3c2203 50%, #4f2e05 62.5%, #643a06 75%, #784507 87.5%, #8b5008 100%);
+  --fa-panel-fill: linear-gradient(0deg, #ffd08a 0%, #b3782d 50%, #3d2204 100%);
+  --fa-panel-inner: linear-gradient(180deg, #33230f99 0%, #0009 100%);
+}
+
+.fa-plan[data-tone='green'] {
+  --fa-accent: #50c158;
+  --fa-accent-text: linear-gradient(180deg, #a6f0ae 0%, #50c158 100%);
+  --fa-panel-burn: linear-gradient(180deg, #000 0%, #000 12.5%, #040f07 25%, #092210 37.5%, #0d3419 50%, #124621 62.5%, #16582a 75%, #1b6932 87.5%, #1f7a3a 100%);
+  --fa-panel-fill: linear-gradient(0deg, #a6f0ae 0%, #3fa457 50%, #0f3a1d 100%);
+  --fa-panel-inner: linear-gradient(180deg, #0f301a99 0%, #0009 100%);
+}
+
+.fa-plan[data-tone='brown'] {
+  --fa-art-fill:
+    radial-gradient(ellipse 12.877% 34.39% at 0% 100%, rgba(65, 37, 0, 0.592) 0%, rgba(65, 37, 0, 0.27) 50%, rgba(65, 37, 0, 0) 100%),
+    radial-gradient(ellipse 12.877% 34.39% at 100% 100%, rgba(65, 37, 0, 0.592) 0%, rgba(65, 37, 0, 0.27) 50%, rgba(65, 37, 0, 0) 100%),
+    radial-gradient(ellipse 24.704% 52.53% at 37.454% 0%, rgba(205, 135, 43, 0.83) 0%, rgba(205, 135, 43, 0.52) 50%, rgba(205, 135, 43, 0) 100%),
+    radial-gradient(ellipse 29.76% 50.275% at 73.927% 0%, rgba(205, 135, 43, 0.775) 0%, rgba(205, 135, 43, 0.494) 50%, rgba(205, 135, 43, 0) 100%),
+    radial-gradient(ellipse 44.471% 326.972% at 50% 0%, rgba(206, 133, 28, 0.127) 0%, rgba(206, 133, 28, 0.151) 50%, rgba(206, 133, 28, 0) 100%),
+    linear-gradient(90deg, rgba(213, 139, 38, 0.029) 0px, rgba(213, 139, 38, 0) 27.5px, rgba(213, 139, 38, 0) calc(100% - 27.5px), rgba(213, 139, 38, 0.029) 100%),
+    linear-gradient(180deg, rgb(179, 122, 50) 0%, rgb(160, 107, 39) 9.091%, rgb(143, 93, 27) 18.182%, rgb(133, 85, 19) 27.273%, rgb(129, 81, 13) 36.364%, rgb(128, 80, 9) 45.455%, rgb(124, 77, 4) 54.545%, rgb(119, 73, 1) 63.636%, rgb(108, 66, 4) 72.727%, rgb(102, 63, 7) 81.818%, rgb(101, 63, 11) 90.909%, rgb(99, 63, 14) 100%);
+  --fa-art-mask:
+    linear-gradient(to bottom, transparent -0.657px, #000 0.675px),
+    conic-gradient(from 0deg at -2.32px -128.003px, #000 0deg, #000 177.324deg, rgba(0, 0, 0, 0.941) 178.662deg, rgba(0, 0, 0, 0) 180deg, rgba(0, 0, 0, 0.115) 181.338deg, transparent 182.676deg),
+    conic-gradient(from 0deg at calc(100% + 2.679px) -128.003px, transparent 0deg, transparent 177.324deg, rgba(0, 0, 0, 0.115) 178.662deg, rgba(0, 0, 0, 0) 180deg, rgba(0, 0, 0, 0.941) 181.338deg, #000 182.676deg),
+    linear-gradient(to bottom, #000 calc(100% - 23.143px), transparent calc(100% - 3.143px));
+  --fa-art-band: linear-gradient(to bottom, transparent calc(100% - 319.734px), #000 calc(100% - 55.143px));
+  --fa-art-blur: 3.603px;
+  --fa-art-left: 0.763px;
+  --fa-art-right: -0.72px;
+  --fa-art-radius: 26.34px 26.34px 0 0 / 27.165px 27.165px 0 0;
+  --fa-art-blur-radius: 20.246px / 55.999px;
+}
+
+.fa-plan[data-tone='green'] {
+  --fa-art-fill:
+    radial-gradient(ellipse 12.877% 34.39% at 0% 100%, rgba(6, 57, 27, 0.592) 0%, rgba(6, 57, 27, 0.27) 50%, rgba(6, 57, 27, 0) 100%),
+    radial-gradient(ellipse 12.877% 34.39% at 100% 100%, rgba(6, 57, 27, 0.592) 0%, rgba(6, 57, 27, 0.27) 50%, rgba(6, 57, 27, 0) 100%),
+    radial-gradient(ellipse 24.704% 52.53% at 37.454% 0%, rgba(55, 170, 97, 0.83) 0%, rgba(55, 170, 97, 0.52) 50%, rgba(55, 170, 97, 0) 100%),
+    radial-gradient(ellipse 29.76% 50.275% at 73.927% 0%, rgba(55, 170, 97, 0.775) 0%, rgba(55, 170, 97, 0.494) 50%, rgba(55, 170, 97, 0) 100%),
+    radial-gradient(ellipse 44.471% 326.972% at 50% 0%, rgba(42, 170, 93, 0.127) 0%, rgba(42, 170, 93, 0.151) 50%, rgba(42, 170, 93, 0) 100%),
+    linear-gradient(90deg, rgba(50, 175, 98, 0.029) 0px, rgba(50, 175, 98, 0) 27.5px, rgba(50, 175, 98, 0) calc(100% - 27.5px), rgba(50, 175, 98, 0.029) 100%),
+    linear-gradient(180deg, rgb(59, 150, 90) 0%, rgb(49, 135, 79) 9.091%, rgb(38, 121, 68) 18.182%, rgb(31, 112, 62) 27.273%, rgb(27, 109, 59) 36.364%, rgb(24, 107, 57) 45.455%, rgb(20, 104, 54) 54.545%, rgb(17, 100, 51) 63.636%, rgb(19, 91, 48) 72.727%, rgb(20, 87, 46) 81.818%, rgb(23, 86, 46) 90.909%, rgb(25, 85, 47) 100%);
+  --fa-art-mask:
+    linear-gradient(to bottom, transparent -0.657px, #000 0.675px),
+    conic-gradient(from 0deg at -2.32px -128.003px, #000 0deg, #000 177.324deg, rgba(0, 0, 0, 0.941) 178.662deg, rgba(0, 0, 0, 0) 180deg, rgba(0, 0, 0, 0.115) 181.338deg, transparent 182.676deg),
+    conic-gradient(from 0deg at calc(100% + 2.679px) -128.003px, transparent 0deg, transparent 177.324deg, rgba(0, 0, 0, 0.115) 178.662deg, rgba(0, 0, 0, 0) 180deg, rgba(0, 0, 0, 0.941) 181.338deg, #000 182.676deg),
+    linear-gradient(to bottom, #000 calc(100% - 23.143px), transparent calc(100% - 3.143px));
+  --fa-art-band: linear-gradient(to bottom, transparent calc(100% - 319.734px), #000 calc(100% - 55.143px));
+  --fa-art-blur: 3.603px;
+  --fa-art-left: 0.763px;
+  --fa-art-right: -0.72px;
+  --fa-art-radius: 26.34px 26.34px 0 0 / 27.165px 27.165px 0 0;
+  --fa-art-blur-radius: 20.246px / 55.999px;
+}
+
+.fa-plan-accent {
+  background-image: var(--fa-accent-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---- Flame above the card ---- */
+
+.fa-plan-flame {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 0.5rem);
+  height: 2.5rem;
+  pointer-events: none;
+}
+
+.fa-plan-fire {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: -1.5rem;
+  z-index: -1;
+  height: 3.25rem;
+}
+
+.fa-plan-fire-sway {
+  position: absolute;
+  inset: 0;
+  filter: blur(8px);
+  transform-origin: bottom;
+  will-change: transform;
+  animation: fa-flame-sway 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.fa-plan-fire-body {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(180deg, transparent 0%, var(--fa-accent) 100%);
+  -webkit-clip-path: polygon(3.3% 47.8%, 0% 100%, 100% 100%, 91.6% 60.3%, 85.4% 47.8%, 81.5% 21.7%, 75.3% 55.6%, 68.3% 30.2%, 63.2% 47.8%, 58.4% 21.7%, 54.9% 47.8%, 46.5% 0%, 36.3% 47.8%, 28.5% 0%, 20.5% 70.6%, 13.7% 10.3%, 8.6% 78.3%);
+  clip-path: polygon(3.3% 47.8%, 0% 100%, 100% 100%, 91.6% 60.3%, 85.4% 47.8%, 81.5% 21.7%, 75.3% 55.6%, 68.3% 30.2%, 63.2% 47.8%, 58.4% 21.7%, 54.9% 47.8%, 46.5% 0%, 36.3% 47.8%, 28.5% 0%, 20.5% 70.6%, 13.7% 10.3%, 8.6% 78.3%);
+}
+
+/* left, height and the two timings come from Pricing.jsx, one per tongue. */
+.fa-plan-fire-tongue {
+  position: absolute;
+  bottom: 0;
+  width: 20%;
+  border-radius: 9999px;
+  background-image: radial-gradient(50% 100% at 50% 100%, var(--fa-accent) 0%, transparent 100%);
+  filter: blur(12px);
+  transform-origin: bottom;
+  will-change: transform;
+  animation: fa-flame-flicker var(--fa-tongue-duration) cubic-bezier(0.4, 0, 0.2, 1)
+    var(--fa-tongue-delay) infinite;
+}
+
+.fa-plan-flame-label {
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.fa-plan-flame-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+@keyframes fa-flame-flicker {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scaleY(0.92) translate(0);
+  }
+  30% {
+    opacity: 0.48;
+    transform: scaleY(1.16) translate(-2.5%);
+  }
+  60% {
+    opacity: 0.34;
+    transform: scaleY(0.98) translate(1.5%);
+  }
+  80% {
+    opacity: 0.42;
+    transform: scaleY(1.08) translate(-1%);
+  }
+}
+
+@keyframes fa-flame-sway {
+  0%,
+  100% {
+    opacity: 0.64;
+    transform: scaleY(0.95) skew(0);
+  }
+  40% {
+    opacity: 0.8;
+    transform: scaleY(1.09) skew(-1.2deg);
+  }
+  75% {
+    opacity: 0.7;
+    transform: scaleY(1) skew(0.9deg);
+  }
+}
+
+@keyframes fa-flame-breathe {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: the flame holds still at its average strength and only
+   breathes, slowly, as one piece. */
+@media (prefers-reduced-motion: reduce) {
+  .fa-plan-fire {
+    animation: fa-flame-breathe 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .fa-plan-fire-sway {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .fa-plan-fire-tongue {
+    animation: none;
+    opacity: 0.38;
+  }
+}
+
+/* ---- Lit head ---- */
+
+.fa-plan-head {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  /* The height the lit surface was drawn for. */
+  min-height: 15.5rem;
+  padding: 0.75rem 1rem 1rem;
+  border-radius: 1.5rem;
+}
+
+.fa-plan-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The blurred copy, underneath. Its wrapper is larger than the card so the
+   blur can spread past the edges, and is masked so the blur only shows
+   toward the bottom. */
+.fa-plan-art-blur {
+  position: absolute;
+  inset: -32px;
+  -webkit-mask-image: var(--fa-art-band);
+  mask-image: var(--fa-art-band);
+}
+
+.fa-plan-art-blur > div {
+  position: absolute;
+  inset: 32px;
+  border-radius: var(--fa-art-blur-radius);
+  background: var(--fa-art-fill);
+  filter: blur(var(--fa-art-blur));
+}
+
+/* The sharp copy, on top. Its mask softens the sides more the lower they go
+   (the two conic wedges) and hands the bottom over to the blurred copy. */
+.fa-plan-art-crisp {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--fa-art-left);
+  right: var(--fa-art-right);
+  border-radius: var(--fa-art-radius);
+  background: var(--fa-art-fill);
+  -webkit-mask-image: var(--fa-art-mask);
+  mask-image: var(--fa-art-mask);
+  -webkit-mask-composite: source-in, source-in, source-in, source-over;
+  mask-composite: intersect, intersect, intersect, add;
+}
+
+/* Head text is plain solid white with a soft dark shadow under it, so it
+   stays crisp and readable on the lit colour. No blur, no blend. */
+.fa-plan-title {
+  min-height: 3.75rem;
+  margin-top: 0.25rem;
+  padding-left: 2px;
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.875rem;
+  letter-spacing: -0.015em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.fa-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 1.25rem;
+  padding-left: 2px;
+}
+
+.fa-plan-amount {
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.fa-plan-caption {
+  margin-left: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.fa-plan-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* The buttons are the navbar's silver Radix "classic" Sign up button (see
+   PlanButton in Pricing.jsx). Radix draws them; this only stretches them
+   across the card and sizes the icon. */
+.fa-plan-cta {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.fa-plan-cta svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* The info icon sits inline at the start of the text, not beside it as its
+   own column: when the note wraps on a phone the icon stays on the first
+   line instead of floating halfway down both, and balance evens the lines. */
+.fa-plan-note {
+  padding-top: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  text-wrap: balance;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.fa-plan-note-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: -3px;
+}
+
+/* ---- Glowing panel ----
+
+   Three layers under the content: a dark base that warms toward the bottom,
+   and over it, blended with lighten, the tone's bright gradient multiplied by
+   a white inner glow. The multiply keeps that gradient only along the rim,
+   which is what makes the edge glow, brightest along the bottom. */
+
+.fa-plan-panel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.fa-plan-panel-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.fa-plan-panel-burn {
+  position: absolute;
+  inset: 0;
+  background-image: var(--fa-panel-burn);
+}
+
+.fa-plan-panel-lit {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  border-radius: inherit;
+  mix-blend-mode: lighten;
+}
+
+.fa-plan-panel-fill {
+  position: absolute;
+  inset: 0;
+  background-image: var(--fa-panel-fill);
+}
+
+.fa-plan-panel-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: #000;
+  box-shadow:
+    inset 0 0 120px -18px #fff,
+    inset 0 0 36px 4px #fff,
+    inset 0 0 12px 1px #fff;
+  mix-blend-mode: multiply;
+}
+
+.fa-plan-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.fa-plan-panel-icon {
+  width: 18px;
+  height: 18px;
+  margin: 1px;
+  flex-shrink: 0;
+  color: var(--fa-accent);
+}
+
+.fa-plan-panel-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 4px;
+}
+
+.fa-plan-panel-inner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 8px;
+  border-radius: 1rem;
+  background-image: var(--fa-panel-inner);
+  box-shadow: 0 -2px 12px 0 #0000003d;
+}
+
+.fa-plan-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+}
+
+.fa-plan-group:first-child {
+  padding-top: 0;
+}
+
+.fa-plan-group + .fa-plan-group::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: linear-gradient(90deg, #ffffff08 0%, #ffffff0a 50%, #ffffff08 100%);
+}
+
+.fa-plan-group-title {
+  padding: 0 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.fa-plan-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+}
+
+.fa-plan-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: #fff;
+}
+
+/* Feature names in the first card's list, bold ahead of their sentence. */
+.fa-plan-feature {
+  font-weight: 700;
+}
+
+/* The tick takes the card's own accent. */
+.fa-plan-tick {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--fa-accent);
+  stroke-width: 1.75;
+}
+
+.fa-plan-row-out {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* The crosses on what is not included are red, the same red the old cards
+   used, so "not included" reads at a glance. */
+.fa-plan-row-out .fa-plan-tick {
+  color: #e5484d;
+}
+
+.fa-plan-email {
+  margin: 4px 4px 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 0 -2px 4px rgba(255, 255, 255, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  word-break: break-all;
+  color: rgba(255, 255, 255, 0.85);
+  user-select: all;
+}
+
+.fa-plan-email-note {
+  padding: 4px 4px 0;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Phones: the pair stays side by side (see Pricing.jsx), so everything comes
+   down to fit a column of roughly 170px. */
+@media (max-width: 639px) {
+  .fa-plans {
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .fa-plan {
+    gap: 0.75rem;
+    padding: 0.25rem;
+    border-radius: 1.25rem;
+  }
+
+  .fa-plan-flame {
+    height: 2rem;
+  }
+
+  .fa-plan-fire {
+    bottom: -1.25rem;
+    height: 2.5rem;
+  }
+
+  .fa-plan-flame-label {
+    gap: 4px;
+    font-size: 0.6rem;
+  }
+
+  .fa-plan-flame-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* Smaller corners on the lit head to suit the narrow card. The tone rules
+     set these too, so this repeats their selector to win by order. */
+  .fa-plan[data-tone] {
+    --fa-art-radius: 18px 18px 0 0 / 18.5px 18.5px 0 0;
+    --fa-art-blur-radius: 14px / 34px;
+  }
+
+  .fa-plan-head {
+    min-height: 0;
+    padding: 0.625rem 0.625rem 0.75rem;
+  }
+
+  .fa-plan-title {
+    min-height: 3.3rem;
+    font-size: 0.875rem;
+    line-height: 1.1rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* Price over caption, and the same height on both cards, so the two heads
+     end level even though only one of them has a caption. */
+  .fa-plan-price {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    min-height: 2.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .fa-plan-amount {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    letter-spacing: -0.5px;
+  }
+
+  .fa-plan-caption {
+    margin-left: 0;
+    font-size: 0.62rem;
+    line-height: 0.9rem;
+  }
+
+  .fa-plan-action {
+    gap: 4px;
+    padding-top: 0.75rem;
+  }
+
+  .fa-plan-cta svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .fa-plan-note {
+    padding-top: 4px;
+    font-size: 0.55rem;
+    line-height: 0.8rem;
+  }
+
+  .fa-plan-note-icon {
+    width: 10px;
+    height: 10px;
+    margin-right: 3px;
+    vertical-align: -2px;
+  }
+
+  .fa-plan-panel-head {
+    gap: 6px;
+    padding: 6px 10px 2px;
+    font-size: 0.72rem;
+    line-height: 1rem;
+  }
+
+  .fa-plan-panel-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .fa-plan-panel-inner {
+    padding: 8px 4px;
+  }
+
+  .fa-plan-group-title {
+    font-size: 0.66rem;
+    line-height: 1rem;
+  }
+
+  .fa-plan-row {
+    gap: 3px;
+    padding: 4px 0;
+    font-size: 0.66rem;
+    line-height: 0.95rem;
+  }
+
+  .fa-plan-tick {
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+  }
+
+  .fa-plan-email {
+    margin: 4px 0 0;
+    padding: 6px 2px;
+    font-size: 0.52rem;
+    line-height: 0.8rem;
+  }
+
+  .fa-plan-email-note {
+    font-size: 0.6rem;
+    line-height: 0.85rem;
   }
 }
