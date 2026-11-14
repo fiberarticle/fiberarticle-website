@@ -2404,46 +2404,6 @@ h3 {
   color: var(--home-ink-2);
 }
 
-/* Buttons. Brown is the main action, silver the second one, the same
-   pressed-metal look as the navbar Sign up. */
-.home-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  height: 44px;
-  padding: 0 22px;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: filter 0.15s ease;
-}
-
-.home-btn:hover {
-  filter: brightness(1.05);
-}
-
-.home-btn-brown {
-  color: #fff;
-  background-color: #9a6b45;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.12) 30%, rgba(255, 255, 255, 0) 52%, rgba(0, 0, 0, 0.08) 100%);
-  box-shadow:
-    inset 0 2px 0 -0.5px rgba(255, 255, 255, 0.45),
-    inset 0 -3px 2px -1px rgba(40, 20, 5, 0.45),
-    0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.home-btn-silver {
-  color: #1c1c1f;
-  background-color: #fff;
-  background-image: linear-gradient(to bottom, #c6c6ca 0%, #ececef 30%, #fff 52%, #fff 100%);
-  box-shadow:
-    inset 0 2px 0 -0.5px rgba(255, 255, 255, 0.95),
-    inset 0 -3px 2px -1px rgba(0, 0, 0, 0.3),
-    0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
 /* ---- Hero ---- */
 
 .home-hero {
@@ -2486,6 +2446,14 @@ h3 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px;
+}
+
+/* See pricing: the same Radix classic button, in sky blue. Dark navy
+   text, since white on this blue is too faint to read. */
+.home-hero-pricing {
+  --accent-9: #5bbcf2;
+  --accent-10: #4cb2ec;
+  --accent-contrast: #072b47;
 }
 
 .home-hero-showcase {
