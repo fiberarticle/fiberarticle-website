@@ -1,43 +1,22 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@radix-ui/themes'
 import { Link } from 'react-router-dom'
-import { CircleCheck, CircleX, Mail } from 'lucide-react'
-
-import {
-  Body,
-  Card,
-  Header,
-  List,
-  ListItem,
-  MainPrice,
-  Period,
-  Plan,
-  PlanName,
-  Price,
-  Separator,
-} from '@/components/ui/pricing-card.tsx'
+import { Check, HandHelping, Info, Infinity as InfinityIcon, Mail, X } from 'lucide-react'
 
 /**
  * Pricing page: two plans over the full-bleed backdrop.
  *
- * The cards are the shadcn pricing-card primitives, used as shipped. Nothing in
- * global.css targets them; every visual choice is a Tailwind class handed to
- * the components through their own className prop.
- *
- * Both calls to action are Radix Themes buttons so they match the Sign up
- * button in the navbar rather than inventing a second button style: silver
- * (gray + highContrast) for the use-it-yourself plan, the brown accent for the
- * one where we do the work.
- *
- * The two cards are given identical weight on purpose. Ringing the paid one in
- * a coloured outer glow to mark it as the upsell read as decoration for its own
- * sake; the plan names and the wording carry the difference instead.
+ * Each card is built in two parts. The head is a lit, coloured panel (brown for
+ * the plan you use yourself, green for the one we do for you) with a flame of
+ * the same colour burning above it. Under the head sits a dark panel whose rim
+ * glows in that colour and holds what the plan covers. Every colour, gradient,
+ * blur and animation lives in global.css under "Pricing cards", keyed off the
+ * card's data-tone, so this file only lays out the content.
  *
  * The pair stays side by side on phones rather than stacking. That is a
  * deliberate call: comparing two plans is the whole job of this page, and one
  * above the other means scrolling to compare. The cost is that every size below
- * sm has to come down hard, which is what the paired classes throughout are
- * doing - roughly 145px of text column per card on a 390px screen.
+ * sm has to come down hard, which global.css does for the phone width.
  *
  * The first card is the product itself. Every feature in the app is locked
  * until an account pays once; the payment happens inside the app (Razorpay),
@@ -64,25 +43,27 @@ const GMAIL_HREF =
   `&to=${encodeURIComponent(CONTACT_EMAIL)}` +
   `&su=${encodeURIComponent(CONTACT_SUBJECT)}`
 
-/* Written as plainly as possible. The earlier list used the product's own
-   vocabulary, which only makes sense to someone who already knows the tool. */
+/* The four agents the app is built around lead the list, each named in bold
+   with "AI" in front so a visitor knows what kind of tool it is, followed by
+   what you can do with the result. Each name takes its agent's colour from
+   the app's dashboard (amber, green, pink, blue: the logo palette).
+   [name, text, colour]; rows without a name are plain sentences. */
 const SELF_INCLUDED = [
-  'Conduct literature reviews using 200 million+ research papers from arXiv, OpenAlex, Semantic Scholar, and Crossref.',
-  'Identify relevant research papers and explore existing work in your field.',
-  'Generate literature reviews and complete research articles.',
-  'Get source citations for every line generated, so you can verify the references.',
-  'Format your manuscript according to your target journal’s template and export it.',
-  'Use your own API key or run a model locally on your machine.',
-  'Run as many research projects as you need with a one-time payment.',
+  ['AI Researcher:', 'finds the right papers from 200 million+ across scholarly indexes.', '#fca91e'],
+  ['AI Literature Reviewer:', 'builds your evidence matrix and shows the gaps to work on.', '#50c158'],
+  ['AI Article Writer:', 'researches your topic, then writes a full manuscript.', '#ff7db1'],
+  ['AI Assistant:', 'answers your research questions with citations from real papers.', '#4f90e4'],
+  [null, 'Format to your journal’s template and export to Word, PDF or LaTeX.'],
+  [null, 'Use our AI, your own API key or a local model.'],
 ]
 
 /* Deliberately the same four jobs the other card promises, so the two lists
    read against each other and the difference is concrete rather than vague. */
 const SELF_EXCLUDED = [
-  'Dataset collection and preprocessing',
+  'Dataset collection and processing',
   'Programming and scripts',
   'Implementations and evaluations',
-  'Figure and table generation',
+  'Figures and tables generation',
 ]
 
 /* Deliberately all in "we", so the difference from the first plan is obvious
@@ -107,38 +88,131 @@ const LEGAL_LINKS = [
   ['/contact/', 'Contact'],
 ]
 
-/* The plan name is the page's heading now, so it is sized and coloured to lead
-   the card rather than label it. */
-const PLAN_HEADING =
-  'items-start text-[0.72rem] leading-snug font-semibold text-white sm:text-[0.95rem]'
+/* The tongues of the flame above each card, left to right. Each has its own
+   height and flicker timing (negative delays start them mid-cycle), so the
+   flame never pulses as one block. */
+const TONGUES = [
+  { left: '10%', height: '66%', duration: '3.7s', delay: '-1.2s' },
+  { left: '28%', height: '75%', duration: '3.2s', delay: '-2.3s' },
+  { left: '42%', height: '72%', duration: '4.1s', delay: '-0.4s' },
+  { left: '56%', height: '70%', duration: '3.4s', delay: '-1.8s' },
+  { left: '70%', height: '64%', duration: '3.9s', delay: '-2.9s' },
+]
 
-/* No badge in the row any more, so it is just the heading with its spacing.
+/* The double chevron every Sign up button on the site carries. */
+function Chevrons() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3 4.5 L13.4 12 L3 19.5 L3 14.6 L6.6 12 L3 9.4 Z" />
+      <path d="M11.6 4.5 L22 12 L11.6 19.5 L11.6 14.6 L15.2 12 L11.6 9.4 Z" />
+    </svg>
+  )
+}
 
-   min-h reserves three lines on phones. The second heading wraps to three at
-   that width and the first one to two, which left the two header panels ending at
-   different heights - visible as a step between the cards. Reserving the taller
-   of the two makes both panels finish level. Dropped from sm up, where both
-   headings sit on one line anyway. */
-const PLAN_ROW = 'mb-4 min-h-12 items-start sm:mb-7 sm:min-h-0'
+/* A card's call to action: the same silver Radix "classic" button as Sign up
+   in the navbar (gray + highContrast), one size up and stretched across the
+   card. It drops back to the navbar's size on phones. */
+function PlanButton({ children, ...link }) {
+  return (
+    <Button
+      asChild
+      variant="classic"
+      color="gray"
+      highContrast
+      radius="large"
+      size={{ initial: '2', sm: '3' }}
+      className="fa-plan-cta"
+    >
+      <a {...link}>{children}</a>
+    </Button>
+  )
+}
 
-/* One treatment for both cards. border-2 overrides the primitive's 1px edge,
-   which disappeared against the backdrop. The solid fill overrides its
-   dark:bg-transparent: left see-through, the card sitting over the bright part
-   of the image turned orange while the other stayed black, so the pair never
-   looked like a matched set. */
-const CARD_EDGE =
-  'flex max-w-sm flex-col border-2 border-white/[0.14] bg-[#0a0809]/85 p-1 dark:border-white/[0.14] dark:bg-[#0a0809]/85 sm:p-2'
+/* The flame above a card and the line of text it lights. */
+function Flame({ icon: Icon, label, accent }) {
+  return (
+    <div className="fa-plan-flame">
+      <div className="fa-plan-fire" aria-hidden="true">
+        <div className="fa-plan-fire-sway">
+          <div className="fa-plan-fire-body" />
+        </div>
+        {TONGUES.map((tongue) => (
+          <span
+            key={tongue.left}
+            className="fa-plan-fire-tongue"
+            style={{
+              left: tongue.left,
+              height: tongue.height,
+              '--fa-tongue-duration': tongue.duration,
+              '--fa-tongue-delay': tongue.delay,
+            }}
+          />
+        ))}
+      </div>
+      <p className="fa-plan-flame-label">
+        <Icon className="fa-plan-flame-icon" aria-hidden="true" />
+        {label}
+        <span className="fa-plan-accent">{accent}</span>
+      </p>
+    </div>
+  )
+}
 
-const HEADER = 'p-3 sm:p-6'
-const BODY = 'flex flex-1 flex-col gap-4 p-3 pt-3 sm:gap-7 sm:p-6 sm:pt-4'
-const LIST = 'flex flex-col gap-2.5 sm:gap-3.5'
-const ITEM = 'gap-2 text-[0.68rem] leading-snug sm:gap-3 sm:text-sm'
-const TICK = 'mt-0.5 size-3 shrink-0 sm:size-4'
-const SEPARATOR = 'gap-2 text-[0.6rem] sm:gap-3 sm:text-sm'
+/* One plan: the lit head with the price and the call to action, then the
+   glowing panel with what the plan covers (passed in as children). */
+function Plan({ tone, flame, title, price, caption, action, note, panelIcon: PanelIcon, panelLabel, children }) {
+  return (
+    <article className="fa-plan" data-tone={tone}>
+      <Flame {...flame} />
 
-/* Radix Themes props take responsive objects, so the buttons shrink with
-   everything else instead of staying at desktop height. */
-const BUTTON_SIZE = { initial: '1', sm: '3' }
+      <div className="fa-plan-head">
+        {/* The lit surface, painted in two layers: a blurred copy underneath
+            gives the soft bottom edge and corners, the sharp copy on top keeps
+            the upper edge crisp. */}
+        <div className="fa-plan-art" aria-hidden="true">
+          <div className="fa-plan-art-blur">
+            <div />
+          </div>
+          <div className="fa-plan-art-crisp" />
+        </div>
+
+        <h2 className="fa-plan-title">{title}</h2>
+
+        <p className="fa-plan-price">
+          <span className="fa-plan-amount">{price}</span>
+          {caption ? <span className="fa-plan-caption">{caption}</span> : null}
+        </p>
+
+        <div className="fa-plan-action">
+          {action}
+          <p className="fa-plan-note">
+            <Info className="fa-plan-note-icon" aria-hidden="true" />
+            {note}
+          </p>
+        </div>
+      </div>
+
+      <section className="fa-plan-panel">
+        <div className="fa-plan-panel-glow" aria-hidden="true">
+          <div className="fa-plan-panel-burn" />
+          <div className="fa-plan-panel-lit">
+            <div className="fa-plan-panel-fill" />
+            <div className="fa-plan-panel-rim" />
+          </div>
+        </div>
+
+        <p className="fa-plan-panel-head">
+          <PanelIcon className="fa-plan-panel-icon" aria-hidden="true" />
+          <span className="fa-plan-accent">{panelLabel}</span>
+        </p>
+
+        <div className="fa-plan-panel-body">
+          <div className="fa-plan-panel-inner">{children}</div>
+        </div>
+      </section>
+    </article>
+  )
+}
 
 export default function Pricing() {
   const reduce = useReducedMotion()
@@ -168,168 +242,116 @@ export default function Pricing() {
 
       {/* pt clears the fixed navbar, which floats over the page rather than
           taking up space in the flow. */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-3 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
-        {/* No page heading. The two lines that were here now sit on the cards
-            themselves as their plan names, which says the same thing once
-            instead of twice and lets the backdrop carry the top of the page. */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-3 pt-28 pb-8 sm:px-6 sm:pt-36 sm:pb-12">
+        {/* No page heading. The two plan names on the cards say what the page
+            is about, and the backdrop carries the top of the page. */}
 
-        {/* 52rem is exactly two 24rem cards plus the 4rem gap, so on desktop each
-            column is the width of the card it holds and the gap you set is the
-            gap you get. At the old max-w-6xl the columns were far wider than the
-            cards, which put ~200px of dead space between them. */}
-        <div className="grid w-full max-w-[52rem] grid-cols-2 justify-items-center gap-5 sm:gap-16">
-          <motion.div className="flex w-full justify-center" {...rise(0)}>
-            <Card className={CARD_EDGE}>
-              <Header className={HEADER}>
-                <Plan className={PLAN_ROW}>
-                  <PlanName className={PLAN_HEADING}>
-                    Use it yourself, pay once
-                  </PlanName>
-                </Plan>
-
-                {/* Stacked on phones, where the column is too narrow for the
-                    price and "one-time" side by side. The other card keeps an
-                    invisible line of the same size, so both header panels end
-                    level with each other. */}
-                <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-end sm:gap-1">
-                  <MainPrice className="text-base text-white sm:text-3xl">
-                    ₹19,999
-                  </MainPrice>
-                  <Period className="pb-0 text-[0.62rem] sm:pb-1 sm:text-sm">
-                    one-time
-                  </Period>
-                </Price>
-
-                <Button
-                  asChild
-                  variant="classic"
-                  color="gray"
-                  highContrast
-                  size={BUTTON_SIZE}
-                  radius="large"
-                  style={{ width: '100%' }}
-                >
-                  <a href="https://app.fiberarticle.com">
-                    Sign up
-                    <svg
-                      width="17"
-                      height="17"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M3 4.5 L13.4 12 L3 19.5 L3 14.6 L6.6 12 L3 9.4 Z" />
-                      <path d="M11.6 4.5 L22 12 L11.6 19.5 L11.6 14.6 L15.2 12 L11.6 9.4 Z" />
-                    </svg>
-                  </a>
-                </Button>
-
-              </Header>
-
-              <Body className={BODY}>
-                <List className={LIST}>
-                  {SELF_INCLUDED.map((item) => (
-                    <ListItem key={item} className={ITEM}>
-                      <CircleCheck className={`${TICK} text-[#50c158]`} />
-                      {item}
-                    </ListItem>
+        <div className="fa-plans">
+          <motion.div className="fa-plan-slot" {...rise(0)}>
+            <Plan
+              tone="brown"
+              flame={{ icon: InfinityIcon, label: 'Pay once', accent: 'use it yourself' }}
+              title="Use it yourself, pay now"
+              price="₹19,999"
+              caption="one-time"
+              action={
+                <PlanButton href="https://app.fiberarticle.com">
+                  Sign up
+                  <Chevrons />
+                </PlanButton>
+              }
+              note="Pay by UPI, card, netbanking or wallet"
+              panelIcon={InfinityIcon}
+              panelLabel="What you get"
+            >
+              <section className="fa-plan-group">
+                <ul className="fa-plan-list">
+                  {SELF_INCLUDED.map(([name, text, colour]) => (
+                    <li key={text} className="fa-plan-row">
+                      <Check className="fa-plan-tick" aria-hidden="true" />
+                      {/* One span, so the bold name and its sentence wrap as
+                          one line of text beside the tick. */}
+                      <span>
+                        {name ? (
+                          <strong className="fa-plan-feature" style={{ color: colour }}>
+                            {name}
+                          </strong>
+                        ) : null}
+                        {name ? ' ' : null}
+                        {text}
+                      </span>
+                    </li>
                   ))}
-                </List>
+                </ul>
+              </section>
 
-                <Separator className={SEPARATOR}>Not included</Separator>
-
-                <List className={LIST}>
+              <section className="fa-plan-group">
+                <h3 className="fa-plan-group-title">Not included</h3>
+                <ul className="fa-plan-list">
                   {SELF_EXCLUDED.map((item) => (
-                    <ListItem
-                      key={item}
-                      className={`${ITEM} text-muted-foreground/70`}
-                    >
-                      <CircleX className={`${TICK} text-[#e5484d]`} />
+                    <li key={item} className="fa-plan-row fa-plan-row-out">
+                      <X className="fa-plan-tick" aria-hidden="true" />
                       {item}
-                    </ListItem>
+                    </li>
                   ))}
-                </List>
-              </Body>
-            </Card>
+                </ul>
+              </section>
+            </Plan>
           </motion.div>
 
-          <motion.div className="flex w-full justify-center" {...rise(0.12)}>
-            <Card className={CARD_EDGE}>
-              <Header className={HEADER}>
-                <Plan className={PLAN_ROW}>
-                  <PlanName className={PLAN_HEADING}>
-                    If you want us to do it for you
-                  </PlanName>
-                </Plan>
-
-                {/* "Contact us" stands on its own. On phones the other card's
-                    price stacks over its "one-time" line, so an invisible copy
-                    of that line keeps the two header panels the same height. */}
-                <Price className="mb-3 flex-col items-start gap-0 sm:mb-5 sm:flex-row sm:items-center sm:gap-1">
-                  <MainPrice className="text-base text-white sm:text-[1.65rem]">
-                    Contact us
-                  </MainPrice>
-                  <Period aria-hidden="true" className="invisible pb-0 text-[0.62rem] sm:hidden">
-                    one-time
-                  </Period>
-                </Price>
-
-                <Button
-                  asChild
-                  variant="classic"
-                  color="brown"
-                  size={BUTTON_SIZE}
-                  radius="large"
-                  style={{ width: '100%' }}
+          <motion.div className="fa-plan-slot" {...rise(0.12)}>
+            <Plan
+              tone="green"
+              flame={{ icon: HandHelping, label: 'Done for you', accent: 'start to finish' }}
+              title="If you want us to do it for you"
+              price="Contact us"
+              action={
+                <PlanButton
+                  href={GMAIL_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <a
-                    href={GMAIL_HREF}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Mail className="size-3 sm:size-4" />
-                    Email us
-                  </a>
-                </Button>
-              </Header>
-
-              <Body className={BODY}>
-                <List className={LIST}>
+                  <Mail aria-hidden="true" />
+                  Email us
+                </PlanButton>
+              }
+              note="You get your work done in 1 to 2 weeks"
+              panelIcon={HandHelping}
+              panelLabel="What we do"
+            >
+              <section className="fa-plan-group">
+                <ul className="fa-plan-list">
                   {SERVICE_INCLUDED.map((item) => (
-                    <ListItem key={item} className={ITEM}>
-                      <CircleCheck className={`${TICK} text-[#50c158]`} />
+                    <li key={item} className="fa-plan-row">
+                      <Check className="fa-plan-tick" aria-hidden="true" />
                       {item}
-                    </ListItem>
+                    </li>
                   ))}
-                </List>
+                </ul>
+              </section>
 
-                <Separator className={SEPARATOR}>Write to us</Separator>
-
-                <div className="flex flex-col gap-3 sm:gap-4">
-                  {/* Plain text, not a link. The Email us button is the only
-                      thing on this page that opens a mail client, so this is
-                      the address to read and copy - clicking it should do
-                      nothing. Still selectable, which is the point of it.
-                      Sized so it holds one line in the narrow phone column;
-                      break-all is the fallback if it ever does not. */}
-                  <p className="block break-all rounded-lg border border-dashed border-[#b3782d]/40 bg-[#b3782d]/[0.1] px-0 py-2 text-center font-mono text-[0.52rem] text-[#d7a25f] select-all sm:px-3 sm:py-3 sm:text-sm">
-                    {CONTACT_EMAIL}
-                  </p>
-
-                  <p className="text-center text-[0.6rem] leading-relaxed text-white/40 sm:text-xs">
-                    Tell us your topic and your target journal. Typical
-                    turnaround is three to four days.
-                  </p>
-                </div>
-              </Body>
-            </Card>
+              <section className="fa-plan-group">
+                <h3 className="fa-plan-group-title">Write to us</h3>
+                {/* Plain text, not a link. The Email us button is the only
+                    thing on this page that opens a mail client, so this is
+                    the address to read and copy - clicking it should do
+                    nothing. Still selectable, which is the point of it.
+                    Sized in global.css so it holds one line in the narrow
+                    phone column; break-all is the fallback if it ever does
+                    not. */}
+                <p className="fa-plan-email">{CONTACT_EMAIL}</p>
+                <p className="fa-plan-email-note">
+                  Tell us your topic and your target journal.
+                </p>
+              </section>
+            </Plan>
           </motion.div>
         </div>
 
         {/* What the one-time price means, under both cards so the two header
             panels stay the same height. */}
         <p className="mt-8 max-w-xl text-center text-[0.7rem] leading-relaxed text-white/60 sm:mt-12 sm:text-sm">
-          The ₹19,999 is paid once and opens every feature for good. Payment
+          The ₹19,999 is paid once and opens every feature. Payment
           gateway charges are added at checkout.
         </p>
 
