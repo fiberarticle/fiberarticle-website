@@ -30,19 +30,29 @@ const LINKS = [
 export default function Navbar() {
   const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
+  // On the home page the bar floats over a light hero, so it turns frosted
+  // white until the Agents section reaches the top of the screen.
+  const [overLight, setOverLight] = useState(false)
   const current = classify(pathname).kind
   const onPaper = surfaceFor(pathname) === 'paper'
+  const onHome = current === 'home'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8)
+      const agents = document.getElementById('agents')
+      setOverLight(Boolean(agents) && agents.getBoundingClientRect().top > 60)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [pathname])
 
   const classes = ['navbar']
   if (scrolled) classes.push('navbar-scrolled')
   if (onPaper) classes.push('navbar-on-paper')
+  if (onHome) classes.push('navbar-home')
+  if (onHome && overLight) classes.push('navbar-light')
 
   return (
     <>
