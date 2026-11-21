@@ -2384,17 +2384,15 @@ h3 {
 /* ------------------------------------------------------------
    Home page
 
-   A light paper page on the same warm desk as the blog (the --desk colour
-   and --grain noise from blog.css, which every page loads), the product
+   A plain white page, the same --desk colour as the blog (from blog.css,
+   which every page loads), the product
    shown in real screenshots, then the agents on dark cards, then the dark
    footer. Layout values come from the landing page design (Website.dc.html).
    ------------------------------------------------------------ */
 
-/* The paper is painted once on the page wrapper, not per section: a texture
-   restarted at every section's top edge left a faint line at each seam. */
+/* The background is painted once on the page wrapper, not per section. */
 .home-main {
   background-color: var(--desk);
-  background-image: var(--grain);
 }
 
 .home-section {
