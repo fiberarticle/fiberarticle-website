@@ -12,7 +12,7 @@
    ============================================================ */
 
 :root {
-  --desk: #e7e1d6;
+  --desk: #ffffff;
   --desk-deep: #d9d1c3;
   --napkin: #fcf9f3;
   --napkin-edge: #e4dccd;
@@ -63,7 +63,6 @@ html[data-surface='paper'] body {
   overflow-x: clip;
   color: var(--ink-2);
   background-color: var(--desk);
-  background-image: var(--grain), radial-gradient(ellipse at 50% 0%, rgba(255, 252, 245, 0.55), transparent 62%);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
 }
