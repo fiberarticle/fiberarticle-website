@@ -5,8 +5,11 @@ import '@radix-ui/themes/styles.css'
 
 import Root from './Root.jsx'
 import { preloadForPath } from './routes.js'
+import { startAnalytics } from './lib/analytics.js'
 import './styles/global.css'
 import './styles/blog.css'
+
+startAnalytics()
 
 const container = document.getElementById('root')
 
