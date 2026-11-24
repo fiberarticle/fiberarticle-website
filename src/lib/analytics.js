@@ -12,6 +12,11 @@ import posthog from 'posthog-js'
  */
 const TOKEN = 'phc_m5vJyjWvL6yPSF8jQwVURnKaNXStqjGTAThh92t5kYRW'
 
+// Google Analytics 4, "Fiberarticle website" stream. The webapp has its own
+// stream in the same property; Google's cookie is shared across
+// fiberarticle.com subdomains, so a visitor stays one user across both.
+const GA_MEASUREMENT_ID = 'G-69R86PQ9Y5'
+
 export function startAnalytics() {
   const host = window.location.hostname
   if (host !== 'fiberarticle.com' && !host.endsWith('.fiberarticle.com')) return
@@ -28,4 +33,23 @@ export function startAnalytics() {
       theme: { colorScheme: 'dark', dark: { primary: '#c09468' } },
     },
   })
+
+  startGoogleAnalytics()
+}
+
+/* The standard gtag.js snippet, added from code. Page changes inside the
+   single-page site are counted by GA4's enhanced measurement, which listens
+   to browser history changes. */
+function startGoogleAnalytics() {
+  window.dataLayer = window.dataLayer || []
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments)
+  }
+  window.gtag('js', new Date())
+  window.gtag('config', GA_MEASUREMENT_ID)
+
+  const script = document.createElement('script')
+  script.async = true
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+  document.head.appendChild(script)
 }
