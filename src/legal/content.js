@@ -117,6 +117,7 @@ export const LEGAL_CONTENT = [
               '**Your work:** the topics and questions you give Fiberarticle, the files you upload, and the reports, articles, chats and tables it makes for you, along with your settings.',
               '**Your payment record:** the amount, the currency, the date, the payment method type (for example UPI or card) and the order and payment IDs from Razorpay. We never receive or store your card number, UPI PIN or bank login. Those go only to Razorpay. If you buy through Microsoft Marketplace, Microsoft takes the payment and sends us the subscription details: the plan, the term and its status, and the email address and Microsoft Entra tenant ID of the buyer and of the person the subscription is for.',
               '**Sign-in and security data:** a sign-in cookie, and the IP address and browser of each session, so you can stay signed in and we can spot misuse. Our servers also keep short technical logs.',
+              '**How you use the website and the app:** the pages you visit, what you click, errors you run into, and recordings of your sessions that show the screen as you saw it, including what you type (passwords are always hidden). In the app this also covers your work on screen and, for every AI request, the text sent to the AI model and the answer it gave, with timing and token counts. If you answer a survey or write to us through the chat button, we keep that too.',
             ],
           },
         ],
@@ -125,6 +126,7 @@ export const LEGAL_CONTENT = [
         title: 'How we use it',
         body: [
           'To run the service for you, to keep your account secure, to send you account and payment emails (for example a verification code or a payment receipt), and to answer you when you write to us. Fiberarticle itself does not use your work to train AI models, and we do not send marketing emails without asking.',
+          'We use the usage data, recordings and AI request records to find and fix problems, to see which features help people and which confuse them, and to keep the cost and quality of the AI in check.',
         ],
       },
       {
@@ -144,6 +146,7 @@ export const LEGAL_CONTENT = [
               'Oracle Cloud, which runs our servers in India (Hyderabad).',
               'Razorpay, which processes payments.',
               'Resend, which sends account and payment emails.',
+              'PostHog, in the United States, which stores the usage data, session recordings, error reports, AI request records, survey answers and chat messages described above.',
               'Google, if you choose to sign in with Google.',
               'Microsoft, if you choose to sign in with Microsoft or buy through Microsoft Marketplace.',
               'The AI model provider that answers your requests.',
@@ -155,7 +158,7 @@ export const LEGAL_CONTENT = [
       {
         title: 'Cookies',
         body: [
-          'We use one cookie to keep you signed in. Your browser also remembers small choices such as your theme. We do not use advertising or tracking cookies, and the website runs no analytics.',
+          'We use one cookie to keep you signed in. Your browser also remembers small choices such as your theme. The website and the app also use PostHog cookies and browser storage to recognise you between visits and to link your visits to the website with your account in the app. We do not use advertising cookies.',
         ],
       },
       {
