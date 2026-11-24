@@ -147,6 +147,7 @@ export const LEGAL_CONTENT = [
               'Razorpay, which processes payments.',
               'Resend, which sends account and payment emails.',
               'PostHog, in the United States, which stores the usage data, session recordings, error reports, AI request records, survey answers and chat messages described above.',
+              'Google Analytics, which counts visits to the website and the webapp: the pages viewed, where visitors came from, and their device, browser and rough location. It does not receive your work or your AI requests.',
               'Google, if you choose to sign in with Google.',
               'Microsoft, if you choose to sign in with Microsoft or buy through Microsoft Marketplace.',
               'The AI model provider that answers your requests.',
@@ -158,7 +159,7 @@ export const LEGAL_CONTENT = [
       {
         title: 'Cookies',
         body: [
-          'We use one cookie to keep you signed in. Your browser also remembers small choices such as your theme. The website and the app also use PostHog cookies and browser storage to recognise you between visits and to link your visits to the website with your account in the app. We do not use advertising cookies.',
+          'We use one cookie to keep you signed in. Your browser also remembers small choices such as your theme. The website and the app also use PostHog and Google Analytics cookies and browser storage to recognise you between visits and to link your visits to the website with your account in the app. We do not use advertising cookies.',
         ],
       },
       {
